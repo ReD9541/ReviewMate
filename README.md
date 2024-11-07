@@ -54,7 +54,7 @@ The ReviewMate database is designed to support a range of features and activitie
 1. **Clone the Repository:**
    ```bash
 
-   git clone https://github.com/ReD9541/ReviewMate.git
+  https://github.com/ReD9541/ReviewMate.git
    ```
 
 2. **Set Up Database:**
