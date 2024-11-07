@@ -22,8 +22,8 @@
 
 ## Pages Overview
 
-| Page              | Description                                                                |
-|-------------------|----------------------------------------------------------------------------|
+| Page             | Description                                                               |
+|------------------|---------------------------------------------------------------------------|
 | **Login/Logout**  | User authentication and session management.                               |
 | **Registration**  | Sign up to start your ReviewMate journey.                                 |
 | **Movie Showcase**| Browse a curated collection of movies and media.                          |
@@ -54,7 +54,7 @@ The ReviewMate database is designed to support a range of features and activitie
 1. **Clone the Repository:**
    ```bash
 
-   git clone    https://github.com/ReD9541/ReviewMate.git
+   git clone https://github.com/ReD9541/ReviewMate.git
    ```
 
 2. **Set Up Database:**
