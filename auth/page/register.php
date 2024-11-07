@@ -1,11 +1,44 @@
-<?php
-include_once '../../includes/header.php';
-?>
+<?php include_once '../../includes/header.php'; ?>
 
-<main class="flex-fill">
-    <div class="container mt-5">
-        <h2 class="mb-4">Register</h2>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
 
+.main-content {
+  flex: 1; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+</style>
+
+<div class="container main-content">
+    <div class="form-container">
+        <h2 class="text-center">Register</h2>
+
+        <!-- Display Error/Success Messages -->
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger">
                 <?php 
@@ -24,7 +57,21 @@ include_once '../../includes/header.php';
             </div>
         <?php endif; ?>
 
+        <!-- Registration Form -->
         <form action="/ReviewMate/auth/process/register_process.php" method="POST">
+
+            <!-- First Name -->
+            <div class="form-group">
+                <label for="fname">First Name<span style="color:red;"> *</span>:</label>
+                <input type="text" class="form-control" id="fname" name="fname" required>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+                <label for="lname">Last Name<span style="color:red;"> *</span>:</label>
+                <input type="text" class="form-control" id="lname" name="lname" required>
+            </div>
+            
             <!-- Username -->
             <div class="form-group">
                 <label for="username">Username<span style="color:red;"> *</span>:</label>
@@ -41,18 +88,6 @@ include_once '../../includes/header.php';
             <div class="form-group">
                 <label for="password">Password<span style="color:red;"> *</span>:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-
-            <!-- First Name -->
-            <div class="form-group">
-                <label for="fname">First Name<span style="color:red;"> *</span>:</label>
-                <input type="text" class="form-control" id="fname" name="fname" required>
-            </div>
-
-            <!-- Last Name -->
-            <div class="form-group">
-                <label for="lname">Last Name<span style="color:red;"> *</span>:</label>
-                <input type="text" class="form-control" id="lname" name="lname" required>
             </div>
 
             <!-- Country (Optional) -->
@@ -74,11 +109,9 @@ include_once '../../includes/header.php';
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
     </div>
-</main>
+</div>
 
-<?php
-include_once '../../includes/footer.php';
-?>
+<?php include_once '../../includes/footer.php'; ?>
