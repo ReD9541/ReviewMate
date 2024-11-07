@@ -48,14 +48,14 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a class="nav-link" href="/ReviewMate/user/profile.php">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ReviewMate/auth/logout.php">Logout</a>
+                    <a class="nav-link" href="/ReviewMate/auth/process/logout.php">Logout</a>
                 </li>
             <?php else: ?>
                 <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'login.php' ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/ReviewMate/auth/login.php">Login</a>
+                    <a class="nav-link" href="/ReviewMate/auth/page/login.php">Login</a>
                 </li>
                 <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'register.php' ? 'active' : ''; ?>">
-                    <a class="nav-link" href="/ReviewMate/auth/register.php">Sign Up</a>
+                    <a class="nav-link" href="/ReviewMate/auth/page/register.php">Sign Up</a>
                 </li>
             <?php endif; ?>
         </ul>

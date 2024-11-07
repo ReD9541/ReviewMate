@@ -1,9 +1,10 @@
 <?php
-include "../includes/header.php";
-include "../includes/db_connect.php";
+session_start();
+include "../includes/db_connect.php"; 
 
+// Check if user is logged in
 if (!isset($_SESSION['id'])) {
-    header("Location: ../auth/login.php");
+    header("Location: ../auth/page/login.php");
     exit();
 }
 
@@ -14,6 +15,7 @@ $stmt_user = $conn->prepare("SELECT fname, lname, pfp_url FROM userinfo WHERE us
 $stmt_user->bind_param("i", $user_id);
 $stmt_user->execute();
 $userinfo = $stmt_user->get_result()->fetch_assoc();
+$stmt_user->close();
 
 // Fetch movies watched
 $query_watched = "
@@ -25,6 +27,7 @@ $stmt_watched = $conn->prepare($query_watched);
 $stmt_watched->bind_param("i", $user_id);
 $stmt_watched->execute();
 $watched_movies = $stmt_watched->get_result();
+$stmt_watched->close();
 
 // Fetch reviewed movies from the `reviews` table
 $query_reviewed = "
@@ -36,6 +39,7 @@ $stmt_reviewed = $conn->prepare($query_reviewed);
 $stmt_reviewed->bind_param("i", $user_id);
 $stmt_reviewed->execute();
 $reviewed_movies = $stmt_reviewed->get_result();
+$stmt_reviewed->close();
 
 // Fetch watchlist
 $query_watchlist = "
@@ -47,12 +51,13 @@ $stmt_watchlist = $conn->prepare($query_watchlist);
 $stmt_watchlist->bind_param("i", $user_id);
 $stmt_watchlist->execute();
 $watchlist_movies = $stmt_watchlist->get_result();
+$stmt_watchlist->close();
 ?>
 
 <div class="container">
     <!-- Profile Header -->
     <div class="profile-header text-center">
-        <img src="<?php echo $userinfo['pfp_url'] ?: '/assets/images/default_profile.png'; ?>" class="img-circle" alt="Profile Picture" width="150" height="150">
+        <img src="<?php echo htmlspecialchars($userinfo['pfp_url'] ?: '/reviewmate/assets/images/default_profile.png'); ?>" class="img-circle" alt="Profile Picture" width="150" height="150">
         <h2><?php echo htmlspecialchars($userinfo['fname'] . ' ' . $userinfo['lname']); ?></h2>
     </div>
 
@@ -62,7 +67,7 @@ $watchlist_movies = $stmt_watchlist->get_result();
         <?php while ($movie = $watched_movies->fetch_assoc()): ?>
             <div class="col-md-3">
                 <div class="card">
-                    <img src="<?php echo $movie['poster_url']; ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
+                    <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h5>
                     </div>
@@ -77,7 +82,7 @@ $watchlist_movies = $stmt_watchlist->get_result();
         <?php while ($movie = $reviewed_movies->fetch_assoc()): ?>
             <div class="col-md-3">
                 <div class="card">
-                    <img src="<?php echo $movie['poster_url']; ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
+                    <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h5>
                         <p class="card-text"><?php echo htmlspecialchars($movie['review']); ?></p>
@@ -93,7 +98,7 @@ $watchlist_movies = $stmt_watchlist->get_result();
         <?php while ($movie = $watchlist_movies->fetch_assoc()): ?>
             <div class="col-md-3">
                 <div class="card">
-                    <img src="<?php echo $movie['poster_url']; ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
+                    <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h5>
                     </div>

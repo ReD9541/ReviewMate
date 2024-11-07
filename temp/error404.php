@@ -2,34 +2,19 @@
 <?php include '../includes/header.php'; ?>
 
 <style>
-
-        /* style.css */
-    body {
+    html, body {
         font-family: Arial, sans-serif;
+        height: 100%;
         margin: 0;
-        padding: 0;
+        display: flex;
+        flex-direction: column;
     }
 
-    header {
-        background-color: #333;
-        color: #fff;
-        padding: 1rem;
-        text-align: center;
-    }
-
-    header nav ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    header nav ul li {
-        display: inline;
-        margin: 0 1rem;
-    }
-
-    header nav ul li a {
-        color: #fff;
-        text-decoration: none;
+    .main-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .error-404 {
@@ -56,8 +41,17 @@
         text-decoration: none;
         border-radius: 4px;
     }
+
+    .footer {
+        background-color: #f1f1f1;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        flex-shrink: 0; /* Prevents footer from shrinking */
+    }
 </style>
-<main>
+
+<main class="main-content">
     <section class="error-404">
         <h2>404 - Page Not Found</h2>
         <p>Sorry, the page you are looking for does not exist. It might have been moved or deleted.</p>

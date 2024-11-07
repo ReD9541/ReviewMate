@@ -37,7 +37,7 @@ html, body {
 <div class="container main-content">
     <div class="form-container">
         <h2>Login</h2>
-        <form action="process.php" method="POST">
+        <form action="/reviewmate/auth/process/login_process.php" method="POST">
             <div class="form-group">
                 <label>Email:</label>
                 <input type="email" name="email" class="form-control" required>
