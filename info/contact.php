@@ -1,0 +1,1 @@
+<?php include "../temp/error404.php" ?> 
