@@ -1,5 +1,4 @@
-</main>
-
+<!-- Footer -->
 <footer class="footer mt-auto py-3 bg-light">
     <div class="container">
         <div class="row">
@@ -14,7 +13,6 @@
                 <h4>Quick Links</h4>
                 <ul class="list-unstyled">
                     <li><a href="/ReviewMate/info/about.php">About Us</a></li>
-                    <li><a href="/ReviewMate/info/contact.php">Contact</a></li>
                     <li><a href="/ReviewMate/info/privacy.php">Privacy Policy</a></li>
                     <li><a href="/ReviewMate/info/terms.php">Terms of Service</a></li>
                 </ul>
@@ -27,7 +25,6 @@
                     <li><a href="/ReviewMate/auth/page/login.php">Login</a></li>
                     <li><a href="/ReviewMate/auth/page/register.php">Sign Up</a></li>
                     <li><a href="/ReviewMate/user/profile.php">Profile</a></li>
-                    <li><a href="/ReviewMate/help.php">Help</a></li>
                 </ul>
             </div>
 

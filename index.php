@@ -1,87 +1,62 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include "includes/db_connect.php";
 include "includes/header.php";
 
 // Fetch Top Rated Movies
-$topRatedQuery = "SELECT movie_id, title, imdb_rating, poster_url FROM movies ORDER BY imdb_rating DESC LIMIT 5";
+$topRatedQuery = "SELECT movie_id, title, imdb_rating, poster_url FROM movie ORDER BY imdb_rating DESC LIMIT 4";
 $topRatedResult = $conn->query($topRatedQuery);
 
 // Fetch Latest Movies
-$latestMoviesQuery = "SELECT movie_id, title, release_date, poster_url FROM movies ORDER BY release_date DESC LIMIT 5";
+$latestMoviesQuery = "SELECT movie_id, title, release_date, poster_url FROM movie ORDER BY release_date DESC LIMIT 4";
 $latestMoviesResult = $conn->query($latestMoviesQuery);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReviewMate - Home</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <style>
-        .container {
-            margin-top: 20px;
-        }
-        .movie-card {
-            text-align: center;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        .movie-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .movie-section {
-            margin-bottom: 50px;
-        }
-    </style>
-</head>
-<body>
+<main class="main-content">
+    <div class="container-fluid">
+        <h2 class="text-center my-4">Welcome to ReviewMate</h2>
 
-<div class="container">
-    <h2 class="text-center">Welcome to ReviewMate</h2>
+        <!-- Top Rated Movies Section -->
+        <div class="movie-section my-5">
+            <h3 class="mb-4">Top Rated Movies</h3>
+            <div class="row">
+                <?php while ($movie = $topRatedResult->fetch_assoc()): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                        <div class="poster-wrapper">
+                            <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
+                        </div>
+                        </a>
+                        <h4 class="mt-2 text-center"><?= htmlspecialchars($movie['title']) ?></h4>
+                        <p class="text-center">IMDb Rating: <?= htmlspecialchars($movie['imdb_rating']) ?></p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </div>
 
-    <!-- Top Rated Movies Section -->
-    <div class="movie-section">
-        <h3>Top Rated Movies</h3>
-        <div class="row">
-            <?php while ($movie = $topRatedResult->fetch_assoc()): ?>
-                <div class="col-md-3 movie-card">
-                    <a href="movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
-                        <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-responsive">
-                    </a>
-                    <h4><?= htmlspecialchars($movie['title']) ?></h4>
-                    <p>IMDb Rating: <?= htmlspecialchars($movie['imdb_rating']) ?></p>
-                </div>
-            <?php endwhile; ?>
+        <!-- Latest Movies Section -->
+        <div class="movie-section my-5">
+            <h3 class="mb-4">Latest Movies</h3>
+            <div class="row">
+                <?php while ($movie = $latestMoviesResult->fetch_assoc()): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                        <div class="poster-wrapper">
+                            <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
+                        </div>
+                        </a>
+                        <h4 class="mt-2 text-center"><?= htmlspecialchars($movie['title']) ?></h4>
+                        <p class="text-center">Release Date: <?= htmlspecialchars($movie['release_date']) ?></p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
         </div>
     </div>
+</main>
 
-    <!-- Latest Movies Section -->
-    <div class="movie-section">
-        <h3>Latest Movies</h3>
-        <div class="row">
-            <?php while ($movie = $latestMoviesResult->fetch_assoc()): ?>
-                <div class="col-md-3 movie-card">
-                    <a href="movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
-                        <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-responsive">
-                    </a>
-                    <h4><?= htmlspecialchars($movie['title']) ?></h4>
-                    <p>Release Date: <?= htmlspecialchars($movie['release_date']) ?></p>
-                </div>
-            <?php endwhile; ?>
-        </div>
-    </div>
-</div>
-
-<?php include "footer.php"; // Include footer ?>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</body>
-</html>
+<?php include "includes/footer.php"; ?>
 
 <?php
 $conn->close();

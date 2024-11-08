@@ -9,7 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Retrieve and sanitize form inputs
     $username = trim(mysqli_real_escape_string($conn, $_POST['username']));
     $email = trim(mysqli_real_escape_string($conn, $_POST['email']));
-    $password = $_POST['password']; // Will hash later
+    $password = $_POST['password']; 
+    // Hash the password
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
     $fname = trim(mysqli_real_escape_string($conn, $_POST['fname']));
     $lname = trim(mysqli_real_escape_string($conn, $_POST['lname']));
     $country = isset($_POST['country']) ? trim(mysqli_real_escape_string($conn, $_POST['country'])) : null;
@@ -42,9 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: /ReviewMate/auth/page/register.php");
         exit();
     }
-
-    // Hash the password
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
     // Start transaction
     mysqli_begin_transaction($conn);
@@ -94,3 +93,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: /ReviewMate/auth/page/register.php");
     exit();
 }
+?>

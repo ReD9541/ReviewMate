@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2024 at 12:17 PM
+-- Generation Time: Nov 08, 2024 at 01:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -118,16 +118,16 @@ CREATE TABLE `movie` (
 --
 
 INSERT INTO `movie` (`movie_id`, `title`, `release_date`, `genre`, `runtime`, `imdb_rating`, `user_rating`, `description`, `director`, `cast`, `language`, `country`, `poster_url`, `trailer_url`, `updated_date`, `age_rating`, `budget`, `box_office`) VALUES
-(1, 'The Shawshank Redemption', '1994-09-23', 'Drama', 142, 9.3, 9.5, 'Two imprisoned men bond over a number of years.', 'Frank Darabont', 'Tim Robbins, Morgan Freeman', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'R', 25000000, 28341469),
-(2, 'The Godfather', '1972-03-24', 'Crime, Drama', 175, 9.2, 9.4, 'An organized crime dynasty\'s aging patriarch transfers control of his clandestine empire to his reluctant son.', 'Francis Ford Coppola', 'Marlon Brando, Al Pacino', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'R', 6000000, 134966411),
-(3, 'The Dark Knight', '2008-07-18', 'Action, Crime, Drama', 152, 9, 9.1, 'Batman battles the Joker in Gotham City.', 'Christopher Nolan', 'Christian Bale, Heath Ledger', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'PG-13', 185000000, 1004558444),
-(4, 'Pulp Fiction', '1994-10-14', 'Crime, Drama', 154, 8.9, 9, 'The lives of two mob hitmen, a boxer, and others intertwine.', 'Quentin Tarantino', 'John Travolta, Uma Thurman', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'R', 8000000, 213928762),
-(5, 'Forrest Gump', '1994-07-06', 'Drama, Romance', 142, 8.8, 9, 'The story of Forrest Gump, a man with a low IQ who achieves great things.', 'Robert Zemeckis', 'Tom Hanks, Robin Wright', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'PG-13', 55000000, 678226133),
-(6, 'Inception', '2010-07-16', 'Action, Adventure, Sci-Fi', 148, 8.8, 9.1, 'A thief steals corporate secrets through dream-sharing technology.', 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'PG-13', 160000000, 829895144),
-(7, 'Fight Club', '1999-10-15', 'Drama', 139, 8.8, 8.9, 'An insomniac office worker and a soap maker form an underground fight club.', 'David Fincher', 'Brad Pitt, Edward Norton', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'R', 63000000, 101209702),
-(8, 'The Matrix', '1999-03-31', 'Action, Sci-Fi', 136, 8.7, 8.8, 'A hacker discovers the reality he knows is a simulation.', 'Lana Wachowski, Lilly Wachowski', 'Keanu Reeves, Laurence Fishburne', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'R', 63000000, 466364845),
-(9, 'The Lord of the Rings: The Return of the King', '2003-12-17', 'Action, Adventure, Drama', 201, 8.9, 9, 'Gandalf and Aragorn lead the World of Men against Sauron\'s army.', 'Peter Jackson', 'Elijah Wood, Viggo Mortensen', 'English', 'New Zealand, USA', NULL, NULL, '2024-11-07 06:12:13', 'PG-13', 94000000, 1119929521),
-(10, 'Interstellar', '2014-11-07', 'Adventure, Drama, Sci-Fi', 169, 8.6, 8.7, 'Explorers travel through a wormhole in space.', 'Christopher Nolan', 'Matthew McConaughey, Anne Hathaway', 'English', 'USA', NULL, NULL, '2024-11-07 06:12:13', 'PG-13', 165000000, 701729206);
+(1, 'The Shawshank Redemption', '1994-09-23', 'Drama', 142, 9.3, 9.5, 'Two imprisoned men bond over a number of years.', 'Frank Darabont', 'Tim Robbins, Morgan Freeman', 'English', 'USA', 'assets\\images\\movie_poster\\The_Shawshank_Redemption.jpg', 'https://www.youtube.com/embed/6hB3S9bIaco', '2024-11-08 12:44:57', 'R', 25000000, 28341469),
+(2, 'The Godfather', '1972-03-24', 'Crime, Drama', 175, 9.2, 9.4, 'An organized crime dynasty\'s aging patriarch transfers control of his clandestine empire to his reluctant son.', 'Francis Ford Coppola', 'Marlon Brando, Al Pacino', 'English', 'USA', 'assets\\images\\movie_poster\\The_Godfather.jpg', 'https://www.youtube.com/embed/sY1S34973zA', '2024-11-08 12:44:57', 'R', 6000000, 134966411),
+(3, 'The Dark Knight', '2008-07-18', 'Action, Crime, Drama', 152, 9, 9.1, 'Batman battles the Joker in Gotham City.', 'Christopher Nolan', 'Christian Bale, Heath Ledger', 'English', 'USA', 'assets\\images\\movie_poster\\The_Dark_Knight.jpg', 'https://www.youtube.com/embed/EXeTwQWrcwY', '2024-11-08 12:44:57', 'PG-13', 185000000, 1004558444),
+(4, 'Pulp Fiction', '1994-10-14', 'Crime, Drama', 154, 8.9, 9, 'The lives of two mob hitmen, a boxer, and others intertwine.', 'Quentin Tarantino', 'John Travolta, Uma Thurman', 'English', 'USA', 'assets\\images\\movie_poster\\Pulp_Fiction.jpg', 'https://www.youtube.com/embed/s7EdQ4FqbhY', '2024-11-08 12:44:57', 'R', 8000000, 213928762),
+(5, 'Forrest Gump', '1994-07-06', 'Drama, Romance', 142, 8.8, 9, 'The story of Forrest Gump, a man with a low IQ who achieves great things.', 'Robert Zemeckis', 'Tom Hanks, Robin Wright', 'English', 'USA', 'assets\\images\\movie_poster\\Forrest_Gump.jpg', 'https://www.youtube.com/embed/bLvqoHBptjg', '2024-11-08 12:44:57', 'PG-13', 55000000, 678226133),
+(6, 'Inception', '2010-07-16', 'Action, Adventure, Sci-Fi', 148, 8.8, 9.1, 'A thief steals corporate secrets through dream-sharing technology.', 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt', 'English', 'USA', 'assets\\images\\movie_poster\\Inception.jpg', 'https://www.youtube.com/embed/8hP9D6kZseM', '2024-11-08 12:44:57', 'PG-13', 160000000, 829895144),
+(7, 'Fight Club', '1999-10-15', 'Drama', 139, 8.8, 8.9, 'An insomniac office worker and a soap maker form an underground fight club.', 'David Fincher', 'Brad Pitt, Edward Norton', 'English', 'USA', 'assets\\images\\movie_poster\\Fight_Club.jpg', 'https://www.youtube.com/embed/qtRKdVHc-cE', '2024-11-08 12:44:57', 'R', 63000000, 101209702),
+(8, 'The Matrix', '1999-03-31', 'Action, Sci-Fi', 136, 8.7, 8.8, 'A hacker discovers the reality he knows is a simulation.', 'Lana Wachowski, Lilly Wachowski', 'Keanu Reeves, Laurence Fishburne', 'English', 'USA', 'assets\\images\\movie_poster\\The_Matrix.jpg', 'https://www.youtube.com/embed/vKQi3bBA1y8', '2024-11-08 12:44:57', 'R', 63000000, 466364845),
+(9, 'The Lord of the Rings: The Return of the King', '2003-12-17', 'Action, Adventure, Drama', 201, 8.9, 9, 'Gandalf and Aragorn lead the World of Men against Sauron\'s army.', 'Peter Jackson', 'Elijah Wood, Viggo Mortensen', 'English', 'New Zealand, USA', 'assets\\images\\movie_poster\\The_Lord_of_the_Rings_The_Return_of_the_King.jpg', 'https://www.youtube.com/embed/r5X-hFf6Bwo', '2024-11-08 12:44:57', 'PG-13', 94000000, 1119929521),
+(10, 'Interstellar', '2014-11-07', 'Adventure, Drama, Sci-Fi', 169, 8.6, 8.7, 'Explorers travel through a wormhole in space.', 'Christopher Nolan', 'Matthew McConaughey, Anne Hathaway', 'English', 'USA', 'assets\\images\\movie_poster\\Interstellar.jpg', 'https://www.youtube.com/embed/zSWdZVtXT7E', '2024-11-08 12:44:57', 'PG-13', 165000000, 701729206);
 
 -- --------------------------------------------------------
 
@@ -280,7 +280,9 @@ INSERT INTO `userinfo` (`user_id`, `login_id`, `fname`, `lname`, `country`, `add
 (2, 2, 'Jane', 'Smith', 'Canada', '456 Maple Ave, Toronto, Canada', 'Film critic and writer.', '2024-11-07', '2024-11-07 07:57:49'),
 (3, 3, 'Bob', 'Brown', 'UK', '789 Oak Rd, London, UK', 'Aspiring filmmaker.', '2024-11-07', '2024-11-07 07:57:49'),
 (4, 4, 'Alice', 'White', 'Australia', '321 Pine St, Sydney, Australia', 'Cinema lover and reviewer.', '2024-11-07', '2024-11-07 07:57:49'),
-(5, 5, 'test', 'tes2', 'USA', '9 test street, test NSW 2154', 'lorem ipsum', '2024-11-07', '2024-11-07 08:02:29');
+(5, 5, 'test', 'tes2', 'USA', '9 test street, test NSW 2154', 'lorem ipsum', '2024-11-07', '2024-11-07 08:02:29'),
+(6, 6, 'ritesh', 'dhungel', 'Australia', 'not saying st', 'This is a test data set', '2024-11-07', '2024-11-07 12:10:43'),
+(7, 7, 'ritesh', 'ritesh', 'ritesh', 'ritesh', 'ritesh', '2024-11-07', '2024-11-07 12:22:59');
 
 -- --------------------------------------------------------
 
@@ -305,7 +307,9 @@ INSERT INTO `userlogin` (`id`, `username`, `password_hash`, `email`, `created_at
 (2, 'janesmith', '$2y$10$XRqR6CaYHXUqQi1Kh5Ysn.avA.XVFx0YPtzfoYQUc4KVZduDMDORq', 'janesmith@example.com', '2024-11-07 07:45:39'),
 (3, 'bobbrown', '$2y$10$O0/FAPX4E8JKOJag.ByFCe8P55dkjokTQYfKzvhwMDSadQq7kB9oC', 'bobbrown@example.com', '2024-11-07 07:45:39'),
 (4, 'alicewhite', '$2y$10$8xd/ERfbhIPJ9yBc7aUXwetmTeQc.EwkdxZ9.0vw6Zs7pV176aza2', 'alicewhite@example.com', '2024-11-07 07:45:39'),
-(5, 'test', '$2y$10$ydZqHgugfwbX2NM5yupN8.kb4MfCEShBjiGusOyJA6/L.3UNiWjkG', 'test@mail', '2024-11-07 08:02:29');
+(5, 'test', '$2y$10$ydZqHgugfwbX2NM5yupN8.kb4MfCEShBjiGusOyJA6/L.3UNiWjkG', 'test@mail', '2024-11-07 08:02:29'),
+(6, 'riteshdhungel', '$2y$10$vYXPzAfIvWaCCsQLjjX3HePbDHFmJHsWoHvtNPhpc7LuAfKDhNpTe', 'ritesh@gmail.com', '2024-11-07 12:10:43'),
+(7, 'dhungel', '$2y$10$XO1Kr7gU2GKkn4OcZydL0OosF1H4lQvE9nk.r2PFO1K7w3hWtu0om', 'ritesh@ritesh.com', '2024-11-07 12:22:59');
 
 -- --------------------------------------------------------
 
@@ -445,13 +449,13 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `watchlist`
