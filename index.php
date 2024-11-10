@@ -2,14 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 include "includes/db_connect.php";
 include "includes/header.php";
 
-// Fetch Top Rated Movies
 $topRatedQuery = "SELECT movie_id, title, imdb_rating, poster_url FROM movie ORDER BY imdb_rating DESC LIMIT 4";
 $topRatedResult = $conn->query($topRatedQuery);
 
-// Fetch Latest Movies
 $latestMoviesQuery = "SELECT movie_id, title, release_date, poster_url FROM movie ORDER BY release_date DESC LIMIT 4";
 $latestMoviesResult = $conn->query($latestMoviesQuery);
 ?>
@@ -18,7 +17,6 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
     <div class="container-fluid">
         <h2 class="text-center my-4">Welcome to ReviewMate</h2>
 
-        <!-- Top Rated Movies Section -->
         <div class="movie-section my-5">
             <h3 class="mb-4">Top Rated Movies</h3>
             <div class="row">
@@ -36,7 +34,6 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
             </div>
         </div>
 
-        <!-- Latest Movies Section -->
         <div class="movie-section my-5">
             <h3 class="mb-4">Latest Movies</h3>
             <div class="row">

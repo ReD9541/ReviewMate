@@ -1,26 +1,30 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include "../includes/db_connect.php"; 
+include "../includes/header.php"; 
 
-// Check if user is logged in
-if (!isset($_SESSION['id'])) {
-    header("Location: ../auth/page/login.php");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /ReviewMate/auth/page/login.php");
     exit();
 }
 
-$user_id = $_SESSION['id'];
+$user_id = $_SESSION['user_id'];
 
-// Fetch user profile information
-$stmt_user = $conn->prepare("SELECT fname, lname, pfp_url FROM userinfo WHERE user_id = ?");
+$stmt_user = $conn->prepare("
+    SELECT u.fname, u.lname, u.pfp_url, u.country, u.address, u.bio, u.joined_on, l.username 
+    FROM userinfo u
+    JOIN userlogin l ON u.user_id = l.id 
+    WHERE u.user_id = ?");
 $stmt_user->bind_param("i", $user_id);
 $stmt_user->execute();
 $userinfo = $stmt_user->get_result()->fetch_assoc();
 $stmt_user->close();
 
-// Fetch movies watched
 $query_watched = "
-    SELECT m.movie_id, m.title, m.poster_url
-    FROM movies m
+    SELECT m.movie_id, m.title, m.release_date, m.imdb_rating, m.poster_url
+    FROM movie m
     JOIN movies_watched w ON m.movie_id = w.movie_id
     WHERE w.user_id = ?";
 $stmt_watched = $conn->prepare($query_watched);
@@ -29,10 +33,9 @@ $stmt_watched->execute();
 $watched_movies = $stmt_watched->get_result();
 $stmt_watched->close();
 
-// Fetch reviewed movies from the `reviews` table
 $query_reviewed = "
-    SELECT m.movie_id, m.title, m.poster_url, r.review
-    FROM movies m
+    SELECT m.movie_id, m.title, m.release_date, m.imdb_rating, m.poster_url, r.review_text
+    FROM movie m
     JOIN reviews r ON m.movie_id = r.movie_id
     WHERE r.user_id = ?";
 $stmt_reviewed = $conn->prepare($query_reviewed);
@@ -41,10 +44,9 @@ $stmt_reviewed->execute();
 $reviewed_movies = $stmt_reviewed->get_result();
 $stmt_reviewed->close();
 
-// Fetch watchlist
 $query_watchlist = "
-    SELECT m.movie_id, m.title, m.poster_url
-    FROM movies m
+    SELECT m.movie_id, m.title, m.release_date, m.imdb_rating, m.poster_url
+    FROM movie m
     JOIN watchlist w ON m.movie_id = w.movie_id
     WHERE w.user_id = ?";
 $stmt_watchlist = $conn->prepare($query_watchlist);
@@ -54,58 +56,80 @@ $watchlist_movies = $stmt_watchlist->get_result();
 $stmt_watchlist->close();
 ?>
 
-<div class="container">
-    <!-- Profile Header -->
-    <div class="profile-header text-center">
-        <img src="<?php echo htmlspecialchars($userinfo['pfp_url'] ?: '/reviewmate/assets/images/default_profile.png'); ?>" class="img-circle" alt="Profile Picture" width="150" height="150">
-        <h2><?php echo htmlspecialchars($userinfo['fname'] . ' ' . $userinfo['lname']); ?></h2>
-    </div>
-
-    <!-- Movies Watched Section -->
-    <h3>Movies Watched</h3>
-    <div class="row">
-        <?php while ($movie = $watched_movies->fetch_assoc()): ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h5>
-                    </div>
-                </div>
+<main class="main-content">
+    <div class="container-fluid">
+        <div class="profile-wrapper d-flex align-items-center mb-5">
+            <div class="profile-picture mr-4">
+                <img src="<?php echo htmlspecialchars($userinfo['pfp_url'] ? '/ReviewMate/' . $userinfo['pfp_url'] : '/ReviewMate/assets/images/profile_picture/default.png'); ?>" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 120px; height: 120px;">
             </div>
-        <?php endwhile; ?>
-    </div>
-
-    <!-- Movies Reviewed Section -->
-    <h3>Movies Reviewed</h3>
-    <div class="row">
-        <?php while ($movie = $reviewed_movies->fetch_assoc()): ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h5>
-                        <p class="card-text"><?php echo htmlspecialchars($movie['review']); ?></p>
-                    </div>
-                </div>
+            <div class="profile-details">
+                <h2><?php echo htmlspecialchars($userinfo['username']); ?></h2> 
+                <p><strong>Country:</strong> <?php echo htmlspecialchars($userinfo['country'] ?? 'Not available'); ?></p>
+                <p><strong>Address:</strong> <?php echo htmlspecialchars($userinfo['address'] ?? 'Not available'); ?></p>
+                <p><strong>Bio:</strong> <?php echo htmlspecialchars($userinfo['bio'] ?? 'Not available'); ?></p>
+                <p><strong>Joined on:</strong> <?php echo htmlspecialchars($userinfo['joined_on'] ?? 'Not available'); ?></p>
             </div>
-        <?php endwhile; ?>
-    </div>
+        </div>
 
-    <!-- Watchlist Section -->
-    <h3>Watchlist</h3>
-    <div class="row">
-        <?php while ($movie = $watchlist_movies->fetch_assoc()): ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="card-img-top img-thumbnail">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h5>
+        <div class="movie-section my-5">
+            <h3 class="mb-4">Movies Watched</h3>
+            <div class="row">
+                <?php while ($movie = $watched_movies->fetch_assoc()): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                            <div class="poster-wrapper">
+                                <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="img-fluid">
+                            </div>
+                        </a>
+                        <h4 class="mt-2 text-center"><?php echo htmlspecialchars($movie['title']); ?></h4>
+                        <p class="text-center">Release Date: <?php echo htmlspecialchars($movie['release_date']); ?></p>
+                        <p class="text-center">IMDb Rating: <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
                     </div>
-                </div>
+                <?php endwhile; ?>
             </div>
-        <?php endwhile; ?>
-    </div>
-</div>
+        </div>
 
-<?php include "../includes/footer.php"; ?>
+        <div class="movie-section my-5">
+            <h3 class="mb-4">Movies Reviewed</h3>
+            <div class="row">
+                <?php while ($movie = $reviewed_movies->fetch_assoc()): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                            <div class="poster-wrapper">
+                                <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="img-fluid">
+                            </div>
+                        </a>
+                        <h4 class="mt-2 text-center"><?php echo htmlspecialchars($movie['title']); ?></h4>
+                        <p class="text-center">Release Date: <?php echo htmlspecialchars($movie['release_date']); ?></p>
+                        <p class="text-center">IMDb Rating: <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
+                        <p><?php echo htmlspecialchars($movie['review_text']); ?></p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </div>
+
+        <div class="movie-section my-5">
+            <h3 class="mb-4">Watchlist</h3>
+            <div class="row">
+                <?php while ($movie = $watchlist_movies->fetch_assoc()): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                            <div class="poster-wrapper">
+                                <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?php echo htmlspecialchars($movie['title']); ?>" class="img-fluid">
+                            </div>
+                        </a>
+                        <h5 class="mt-2 text-center"><?php echo htmlspecialchars($movie['title']); ?></h5>
+                        <p class="text-center">Release Date: <?php echo htmlspecialchars($movie['release_date']); ?></p>
+                        <p class="text-center">IMDb Rating: <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </div>
+    </div>
+</main>
+
+<?php 
+include "../includes/footer.php"; 
+$conn->close();
+?>
+ 

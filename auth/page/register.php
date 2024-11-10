@@ -1,21 +1,9 @@
 <?php include_once '../../includes/header.php'; ?>
+<?php include_once '../../includes/db_connect.php'; ?>
 
-<style>
-
-.form-container {
-  max-width: 400px; 
-  width: 100%;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-</style>
-|
 <div class="container main-content">
     <div class="form-container">
-        <h2 class="text-center">Register</h2>
+        <h2 class="text-center">Sign Up</h2>
 
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger">
@@ -38,27 +26,27 @@
         <form action="/ReviewMate/auth/process/register_process.php" method="POST">
 
             <div class="form-group">
-                <label for="fname">First Name<span style="color:red;"> *</span>:</label>
+                <label for="fname">First Name <span style="color:red;">*</span>:</label>
                 <input type="text" class="form-control" id="fname" name="fname" required>
             </div>
 
             <div class="form-group">
-                <label for="lname">Last Name<span style="color:red;"> *</span>:</label>
+                <label for="lname">Last Name <span style="color:red;">*</span>:</label>
                 <input type="text" class="form-control" id="lname" name="lname" required>
             </div>
             
             <div class="form-group">
-                <label for="username">Username<span style="color:red;"> *</span>:</label>
+                <label for="username">Username <span style="color:red;">*</span>:</label>
                 <input type="text" class="form-control" id="username" name="username" required>
             </div>
 
             <div class="form-group">
-                <label for="email">Email<span style="color:red;"> *</span>:</label>
+                <label for="email">Email <span style="color:red;">*</span>:</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
 
             <div class="form-group">
-                <label for="password">Password<span style="color:red;"> *</span>:</label>
+                <label for="password">Password <span style="color:red;">*</span>:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
 

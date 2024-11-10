@@ -13,33 +13,26 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="/ReviewMate/assets/styles/style.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <!-- Logo and link to homepage -->
             <div class="navbar-header">
                 <a class="navbar-brand" href="/ReviewMate/index.php">
                     <img src="/ReviewMate/assets/images/logo/logo.png" alt="ReviewMate Logo">
                 </a>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
             </div>
-
-            <!-- Navigation Links -->
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Search Button -->
                     <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'movie_search.php' ? 'active' : ''; ?>">
-                        <a class="nav-link" href="/ReviewMate/movie/movie_search.php">
-                            <i class="fa fa-search"></i> Search
-                        </a>
+                        <form class="navbar-form navbar-left" method="GET" action="/ReviewMate/movie/movie_search.php">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="search" placeholder="Search Movies" aria-label="Search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                            </div>
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                        </form> 
                     </li>
-                    <?php if (isset($_SESSION['id'])): ?>
-                        <!-- Profile Link -->
+                    <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'profile.php' ? 'active' : ''; ?>">
                             <a class="nav-link" href="/ReviewMate/user/profile.php">Profile</a>
                         </li>
@@ -62,6 +55,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <?php endif; ?>
                 </ul>
             </div>
-
         </div>
     </nav>
+</body>
+</html>

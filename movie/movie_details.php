@@ -37,40 +37,36 @@ if (isset($_GET['movie_id']) && is_numeric($_GET['movie_id'])) {
 
 <main class="main-content">
     <div class="container my-5">
-        <div class="card mb-5">
+        <div class="card mb-5 movie-card">
             <div class="row no-gutters">
-                <!-- Movie Poster -->
                 <div class="col-md-4">
                     <div class="poster-wrapper">
-                    <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="Movie Poster" class="img-fluid rounded">
+                        <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="Movie Poster" class="img-fluid rounded">
                     </div>
                 </div>
 
-                <!-- Card Content -->
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h2 class="card-title"><?php echo htmlspecialchars($movie['title']); ?></h2>
-
+                        <h1 class="movie-title"><?php echo htmlspecialchars($movie['title']); ?></h1>
                         <div class="movie-details">
-                            <p class="movie-detail"><strong>Release Date:</strong> <?php echo htmlspecialchars($movie['release_date']); ?></p>
-                            <p class="movie-detail"><strong>Genre:</strong> <?php echo htmlspecialchars($movie['genre']); ?></p>
-                            <p class="movie-detail"><strong>Runtime:</strong> <?php echo htmlspecialchars($movie['runtime']); ?> mins</p>
-                            <p class="movie-detail"><strong>IMDb Rating:</strong> <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
-                            <p class="movie-detail"><strong>User Rating:</strong> <?php echo htmlspecialchars($movie['user_rating']); ?></p>
-                            <p class="movie-detail"><strong>Age Rating:</strong> <?php echo htmlspecialchars($movie['age_rating']); ?></p>
-                            <p class="movie-detail"><strong>Budget:</strong> $<?php echo number_format($movie['budget']); ?></p>
-                            <p class="movie-detail"><strong>Box Office:</strong> $<?php echo number_format($movie['box_office']); ?></p>
-                            <p class="movie-detail"><strong>Description:</strong> <?php echo htmlspecialchars($movie['description']); ?></p>
-                            <p class="movie-detail"><strong>Director:</strong> <?php echo htmlspecialchars($movie['director']); ?></p>
-                            <p class="movie-detail"><strong>Cast:</strong> <?php echo htmlspecialchars($movie['cast']); ?></p>
-                            <p class="movie-detail"><strong>Language:</strong> <?php echo htmlspecialchars($movie['language']); ?></p>
-                            <p class="movie-detail"><strong>Country:</strong> <?php echo htmlspecialchars($movie['country']); ?></p>
+                            <p><strong>Release Date:</strong> <?php echo htmlspecialchars($movie['release_date']); ?></p>
+                            <p><strong>Genre:</strong> <?php echo htmlspecialchars($movie['genre']); ?></p>
+                            <p><strong>Runtime:</strong> <?php echo htmlspecialchars($movie['runtime']); ?> mins</p>
+                            <p><strong>IMDb Rating:</strong> <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
+                            <p><strong>User Rating:</strong> <?php echo htmlspecialchars($movie['user_rating']); ?></p>
+                            <p><strong>Age Rating:</strong> <?php echo htmlspecialchars($movie['age_rating']); ?></p>
+                            <p><strong>Budget:</strong> $<?php echo number_format($movie['budget']); ?></p>
+                            <p><strong>Box Office:</strong> $<?php echo number_format($movie['box_office']); ?></p>
+                            <p><strong>Description:</strong> <?php echo htmlspecialchars($movie['description']); ?></p>
+                            <p><strong>Director:</strong> <?php echo htmlspecialchars($movie['director']); ?></p>
+                            <p><strong>Cast:</strong> <?php echo htmlspecialchars($movie['cast']); ?></p>
+                            <p><strong>Language:</strong> <?php echo htmlspecialchars($movie['language']); ?></p>
+                            <p><strong>Country:</strong> <?php echo htmlspecialchars($movie['country']); ?></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Movie Trailer -->
             <?php if (!empty($movie['trailer_url'])): ?>
                 <div class="mt-4">
                     <div class="video-wrapper">
