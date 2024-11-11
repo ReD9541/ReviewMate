@@ -102,8 +102,7 @@ $stmt_watchlist->close();
                         <h4 class="mt-2 text-center"><?php echo htmlspecialchars($movie['title']); ?></h4>
                         <p class="text-center">Release Date: <?php echo htmlspecialchars($movie['release_date']); ?></p>
                         <p class="text-center">IMDb Rating: <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
-                        <p><?php echo htmlspecialchars($movie['review_text']); ?></p>
-                    </div>
+                        <p>"<?php echo htmlspecialchars($movie['review_text']); ?>"</p>                        </div>
                 <?php endwhile; ?>
             </div>
         </div>
