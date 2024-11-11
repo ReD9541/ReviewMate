@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $conn->real_escape_string($_POST['email']);
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT id, email, password_hash FROM userlogin WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, username, email, password_hash FROM userlogin WHERE email = ?");
     if ($stmt === false) {
         die("Error preparing the query: " . $conn->error);
     }
@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($password, $row['password_hash'])) {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['email'] = $row['email'];
+            $_SESSION['username'] = $row['username'];
 
             header("Location: /ReviewMate/user/profile.php?user_id=" . $row['id']);
             exit();

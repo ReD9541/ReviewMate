@@ -15,7 +15,11 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
 
 <main class="main-content">
     <div class="container-fluid">
-        <h2 class="text-center my-4">Welcome to ReviewMate</h2>
+        <?php if (isset($_SESSION['user_id']) && isset($_SESSION['username'])): ?>
+        <h2 class="text-center my-4">Hello, <?php echo htmlspecialchars($_SESSION['username']); ?>! Welcome to ReviewMate</h2>
+        <?php else: ?>
+            <h2 class="text-center my-4">Welcome to ReviewMate</h2>
+        <?php endif; ?>
 
         <div class="movie-section my-5">
             <h3 class="mb-4">Top Rated Movies</h3>
