@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2024 at 11:40 AM
+-- Generation Time: Nov 11, 2024 at 06:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -161,7 +161,12 @@ INSERT INTO `movies_watched` (`id`, `user_id`, `movie_id`, `watch_date`) VALUES
 (12, 7, 2, '2023-05-01'),
 (13, 7, 4, '2023-05-05'),
 (14, 7, 6, '2023-05-10'),
-(16, 7, 1, '2024-11-11');
+(16, 7, 1, '2024-11-11'),
+(17, 7, 3, '2024-11-12'),
+(18, 8, 1, '2024-11-12'),
+(19, 8, 6, '2024-11-12'),
+(20, 8, 7, '2024-11-12'),
+(21, 8, 9, '2024-11-12');
 
 -- --------------------------------------------------------
 
@@ -260,7 +265,9 @@ INSERT INTO `reviews` (`review_id`, `user_id`, `movie_id`, `rating`, `review_tex
 (10, 7, 2, 9, 'An absolute classic, loved every moment.', '2024-11-10 17:53:27'),
 (11, 7, 4, 8.5, 'Great storytelling, but a bit too nonlinear for me.', '2024-11-10 17:53:27'),
 (12, 7, 6, 9.2, 'Mind-bending visuals and a compelling story.', '2024-11-10 17:53:27'),
-(14, 7, 3, 6, 'testing it cuz it broke with \\\' last time', '2024-11-11 10:32:55');
+(14, 7, 3, 6, 'testing it cuz it broke with \\\' last time', '2024-11-11 10:32:55'),
+(15, 7, 9, 1, 'this is bad my guy', '2024-11-11 13:06:33'),
+(16, 8, 4, 6, 'review example', '2024-11-11 16:37:30');
 
 -- --------------------------------------------------------
 
@@ -269,8 +276,8 @@ INSERT INTO `reviews` (`review_id`, `user_id`, `movie_id`, `rating`, `review_tex
 --
 
 CREATE TABLE `userinfo` (
+  `row_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `login_id` int(11) NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `country` varchar(50) DEFAULT NULL,
@@ -278,20 +285,21 @@ CREATE TABLE `userinfo` (
   `bio` text DEFAULT NULL,
   `joined_on` date DEFAULT curdate(),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `pfp_url` varchar(255) DEFAULT 'reviewmate\\assets\\images\\profile_picture\\default.png'
+  `pfp_url` varchar(255) DEFAULT 'assets/images/profile_picture/default.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `userinfo`
 --
 
-INSERT INTO `userinfo` (`user_id`, `login_id`, `fname`, `lname`, `country`, `address`, `bio`, `joined_on`, `created_at`, `pfp_url`) VALUES
+INSERT INTO `userinfo` (`row_id`, `user_id`, `fname`, `lname`, `country`, `address`, `bio`, `joined_on`, `created_at`, `pfp_url`) VALUES
 (1, 1, 'John', 'Doe', 'USA', '123 Main St, Anytown, USA', 'Movie enthusiast and blogger.', '2024-11-07', '2024-11-07 07:57:49', 'assets/images/profile_picture/default.png'),
 (2, 2, 'Jane', 'Smith', 'Canada', '456 Maple Ave, Toronto, Canada', 'Film critic and writer.', '2024-11-07', '2024-11-07 07:57:49', 'assets/images/profile_picture/default.png'),
 (3, 3, 'Bob', 'Brown', 'UK', '789 Oak Rd, London, UK', 'Aspiring filmmaker.', '2024-11-07', '2024-11-07 07:57:49', 'assets/images/profile_picture/default.png'),
 (4, 4, 'Alice', 'White', 'Australia', '321 Pine St, Sydney, Australia', 'Cinema lover and reviewer.', '2024-11-07', '2024-11-07 07:57:49', 'assets/images/profile_picture/default.png'),
 (5, 5, 'test', 'tes2', 'USA', '9 test street, test NSW 2154', 'lorem ipsum', '2024-11-07', '2024-11-07 08:02:29', 'assets/images/profile_picture/default.png'),
-(7, 7, 'Ritesh', 'Dhungel', 'Nepal', 'Kathmandu, Nepal', 'Movie lover from Nepal.', '2024-11-07', '2024-11-07 12:22:59', 'assets/images/profile_picture/default.png');
+(7, 7, 'Ritesh', 'Dhungel', 'Nepal', 'Kathmandu, Nepal', 'Movie lover from Nepal.', '2024-11-07', '2024-11-07 12:22:59', 'assets/images/profile_picture/default.png'),
+(9, 8, 'hello', 'hello', 'hello', 'hello', 'hello', '2024-11-12', '2024-11-11 16:26:08', 'assets/images/profile_picture/default.png');
 
 -- --------------------------------------------------------
 
@@ -317,7 +325,8 @@ INSERT INTO `userlogin` (`id`, `username`, `password_hash`, `email`, `created_at
 (3, 'bobbrown', '$2y$10$O0/FAPX4E8JKOJag.ByFCe8P55dkjokTQYfKzvhwMDSadQq7kB9oC', 'bobbrown@example.com', '2024-11-07 07:45:39'),
 (4, 'alicewhite', '$2y$10$8xd/ERfbhIPJ9yBc7aUXwetmTeQc.EwkdxZ9.0vw6Zs7pV176aza2', 'alicewhite@example.com', '2024-11-07 07:45:39'),
 (5, 'test', '$2y$10$ydZqHgugfwbX2NM5yupN8.kb4MfCEShBjiGusOyJA6/L.3UNiWjkG', 'test@mail', '2024-11-07 08:02:29'),
-(7, 'RiteshDhungel12751', '$2y$10$XO1Kr7gU2GKkn4OcZydL0OosF1H4lQvE9nk.r2PFO1K7w3hWtu0om', 'ritesh@ritesh.com', '2024-11-07 12:22:59');
+(7, 'RiteshDhungel12751', '$2y$10$XO1Kr7gU2GKkn4OcZydL0OosF1H4lQvE9nk.r2PFO1K7w3hWtu0om', 'ritesh@ritesh.com', '2024-11-07 12:22:59'),
+(8, 'hello', '$2y$10$lBmWsRO83A6XZbvB0fV2TutNSfX7h6ehfvqwI3F.kZNPZmCP2AoSK', 'hello@gmail.com', '2024-11-11 16:26:08');
 
 -- --------------------------------------------------------
 
@@ -347,7 +356,9 @@ INSERT INTO `watchlist` (`id`, `user_id`, `movie_id`, `added_date`) VALUES
 (8, 7, 3, '2023-05-06'),
 (9, 7, 5, '2023-05-11'),
 (10, 7, 6, '2024-11-11'),
-(11, 7, 2, '2024-11-11');
+(11, 7, 2, '2024-11-11'),
+(12, 8, 1, '2024-11-12'),
+(13, 8, 2, '2024-11-12');
 
 --
 -- Indexes for dumped tables
@@ -405,8 +416,8 @@ ALTER TABLE `reviews`
 -- Indexes for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `login_id` (`login_id`);
+  ADD PRIMARY KEY (`row_id`),
+  ADD UNIQUE KEY `login_id` (`user_id`);
 
 --
 -- Indexes for table `userlogin`
@@ -450,31 +461,31 @@ ALTER TABLE `movie`
 -- AUTO_INCREMENT for table `movies_watched`
 --
 ALTER TABLE `movies_watched`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `userlogin`
 --
 ALTER TABLE `userlogin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `watchlist`
 --
 ALTER TABLE `watchlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -512,7 +523,7 @@ ALTER TABLE `reviews`
 -- Constraints for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  ADD CONSTRAINT `userinfo_ibfk_1` FOREIGN KEY (`login_id`) REFERENCES `userlogin` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `userinfo_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userlogin` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `watchlist`
