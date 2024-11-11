@@ -58,18 +58,22 @@ $stmt_watchlist->close();
 
 <main class="main-content">
     <div class="container-fluid">
-        <div class="profile-wrapper d-flex align-items-center mb-5">
-            <div class="profile-picture mr-4">
-                <img src="<?php echo htmlspecialchars($userinfo['pfp_url'] ? '/ReviewMate/' . $userinfo['pfp_url'] : '/ReviewMate/assets/images/profile_picture/default.png'); ?>" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 120px; height: 120px;">
+        <?php if ($userinfo): ?>
+            <div class="profile-wrapper d-flex align-items-center mb-5">
+                <div class="profile-picture mr-4">
+                    <img src="<?php echo htmlspecialchars($userinfo['pfp_url'] ? '/ReviewMate/' . $userinfo['pfp_url'] : '/ReviewMate/assets/images/profile_picture/default.png'); ?>" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 120px; height: 120px;">
+                </div>
+                <div class="profile-details">
+                    <h2><?php echo htmlspecialchars($userinfo['username']); ?></h2> 
+                    <p><strong>Country:</strong> <?php echo htmlspecialchars($userinfo['country'] ?? 'Not available'); ?></p>
+                    <p><strong>Address:</strong> <?php echo htmlspecialchars($userinfo['address'] ?? 'Not available'); ?></p>
+                    <p><strong>Bio:</strong> <?php echo htmlspecialchars($userinfo['bio'] ?? 'Not available'); ?></p>
+                    <p><strong>Joined on:</strong> <?php echo htmlspecialchars($userinfo['joined_on'] ?? 'Not available'); ?></p>
+                </div>
             </div>
-            <div class="profile-details">
-                <h2><?php echo htmlspecialchars($userinfo['username']); ?></h2> 
-                <p><strong>Country:</strong> <?php echo htmlspecialchars($userinfo['country'] ?? 'Not available'); ?></p>
-                <p><strong>Address:</strong> <?php echo htmlspecialchars($userinfo['address'] ?? 'Not available'); ?></p>
-                <p><strong>Bio:</strong> <?php echo htmlspecialchars($userinfo['bio'] ?? 'Not available'); ?></p>
-                <p><strong>Joined on:</strong> <?php echo htmlspecialchars($userinfo['joined_on'] ?? 'Not available'); ?></p>
-            </div>
-        </div>
+        <?php else: ?>
+            <p>User information not found.</p>
+        <?php endif; ?>
 
         <div class="movie-section my-5">
             <h3 class="mb-4">Movies Watched</h3>
@@ -102,7 +106,8 @@ $stmt_watchlist->close();
                         <h4 class="mt-2 text-center"><?php echo htmlspecialchars($movie['title']); ?></h4>
                         <p class="text-center">Release Date: <?php echo htmlspecialchars($movie['release_date']); ?></p>
                         <p class="text-center">IMDb Rating: <?php echo htmlspecialchars($movie['imdb_rating']); ?></p>
-                        <p>"<?php echo htmlspecialchars($movie['review_text']); ?>"</p>                        </div>
+                        <p class="text-center">"<?php echo htmlspecialchars($movie['review_text']); ?>"</p>
+                    </div>
                 <?php endwhile; ?>
             </div>
         </div>
@@ -131,4 +136,5 @@ $stmt_watchlist->close();
 include "../includes/footer.php"; 
 $conn->close();
 ?>
+
  

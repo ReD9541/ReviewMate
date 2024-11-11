@@ -2,6 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+include "../../includes/db_connect.php";
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: /ReviewMate/auth/page/login.php");
     exit();

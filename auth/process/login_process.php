@@ -28,10 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: /ReviewMate/user/profile.php?user_id=" . $row['id']);
             exit();
         } else {
-            echo "<script>alert('Invalid password.');window.location.href='../auth/page/login.php';</script>";
+            echo "<script>alert('Invalid password.');window.location.href='../../auth/page/login.php';</script>";
         }
     } else {
-        echo "<script>alert('No account found with this email.');window.location.href='../auth/page/login.php';</script>";
+        echo "<script>alert('No account found with this email.');window.location.href='../../auth/page/login.php';</script>";
     }
 
     $stmt->close();
