@@ -1,5 +1,9 @@
 # ReviewMate
 
+
+** There's been a huge blunder, i haven't used any jquery scripts, and only used mysqli for the data. This project needs to be updated to use ajax, jquery. Would be done by sunday this week, 18/nov.**
+
+
 **ReviewMate** is an engaging movie review website designed to give users the ultimate movie and digital media rating experience. Users can browse an extensive collection of movies, TV series, documentaries, video games, music albums, and books, share personal reviews, and track their media journey with customized profiles.
 
 ## Features
