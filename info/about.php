@@ -23,7 +23,7 @@ include "../includes/header.php";
                 </p>
             </div>
         </div>
-   
+    
         <div class="my-5 text-center">
             <h4 class="mb-3">Our Mission</h4>
             <p>
@@ -38,7 +38,7 @@ include "../includes/header.php";
             <p>
                 Sign up now to start reviewing and discovering movies you love. Explore our collection, create your profile, and get involved in our growing community!
             </p>
-            <a href="/ReviewMate/auth/page/register.php" class="btn btn-primary btn-lg">Join ReviewMate</a>
+            <a href="/auth/page/register.php" class="btn btn-primary btn-lg">Join ReviewMate</a>
         </div>
     </div>
 </main>

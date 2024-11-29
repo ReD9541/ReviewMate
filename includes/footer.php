@@ -5,18 +5,18 @@
             <div class="col-md-3 mb-3">
                 <h4>Quick Links</h4>
                 <ul class="list-unstyled">
-                    <li><a href="/ReviewMate/info/about.php">About Us</a></li>
-                    <li><a href="/ReviewMate/info/privacy.php">Privacy Policy</a></li>
-                    <li><a href="/ReviewMate/info/terms.php">Terms of Service</a></li>
+                    <li><a href="/info/about.php">About Us</a></li>
+                    <li><a href="/info/privacy.php">Privacy Policy</a></li>
+                    <li><a href="/info/terms.php">Terms of Service</a></li>
                 </ul>
             </div>
 
             <div class="col-md-3 mb-3">
                 <h4>User</h4>
                 <ul class="list-unstyled">
-                    <li><a href="/ReviewMate/auth/page/login.php">Login</a></li>
-                    <li><a href="/ReviewMate/auth/page/register.php">Sign Up</a></li>
-                    <li><a href="/ReviewMate/user/profile.php">Profile</a></li>
+                    <li><a href="/auth/page/login.php">Login</a></li>
+                    <li><a href="/auth/page/register.php">Sign Up</a></li>
+                    <li><a href="/user/profile.php">Profile</a></li>
                 </ul>
             </div>
 

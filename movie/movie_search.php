@@ -2,14 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include "../includes/db_connect.php"; 
-include "../includes/header.php"; 
+include "../includes/db_connect.php";
+include "../includes/header.php";
 
 $search_term = '';
 $movies = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
     if (isset($_GET['search'])) {
         $search_term = trim($_GET['search']);
     }
@@ -38,17 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     <div class="container my-5">
         <h2 class="mb-4">Search Movies</h2>
         <form method="get" action="movie_search.php" class="form-inline mb-4">
-            <input type="text" name="search" class="form-control mr-2" placeholder="Enter movie title" value="<?php echo htmlspecialchars($search_term); ?>" required>
-            <button type="submit"  class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Search</button>
+            <input type="text" name="search" class="form-control mr-2" placeholder="Enter movie title"
+                value="<?php echo htmlspecialchars($search_term); ?>" required>
+            <button type="submit" class="btn btn-primary ml-3 my-2"
+                style="padding: 10px 20px; margin: 10px;">Search</button>
         </form>
 
         <?php if (!empty($movies)): ?>
             <div class="row">
                 <?php foreach ($movies as $movie): ?>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2 movie-card mb-4">
-                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                        <a href="/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
                             <div class="poster-wrapper">
-                                <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
+                                <img src="/<?php echo htmlspecialchars($movie['poster_url']); ?>"
+                                    alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
                             </div>
                         </a>
                         <h5 class="mt-2 text-center"><?= htmlspecialchars($movie['title']) ?></h5>

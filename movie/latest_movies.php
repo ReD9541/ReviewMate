@@ -16,9 +16,9 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
         <div class="row">
             <?php while ($movie = $latestMoviesResult->fetch_assoc()): ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
-                    <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                    <a href="/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
                         <div class="poster-wrapper">
-                            <img src="/ReviewMate/<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
+                            <img src="/<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
                         </div>
                     </a>
                     <h4 class="mt-2 text-center"><?= htmlspecialchars($movie['title']) ?></h4>

@@ -3,7 +3,7 @@ session_start();
 include "../../includes/db_connect.php";
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /ReviewMate/auth/page/login.php");
+    header("Location: /auth/page/login.php");
     exit();
 }
 
@@ -25,15 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_nume
         $check_review_result = $check_review_stmt->get_result();
 
         if ($check_review_result->num_rows > 0) {
-            echo "<script>alert('You\'ve already reviewed this movie.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+            echo "<script>alert('You\'ve already reviewed this movie.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
         } else {
             $stmt = $conn->prepare("INSERT INTO reviews (user_id, movie_id, rating, review_text, review_date) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)");
             $stmt->bind_param("iiis", $user_id, $movie_id, $rating, $review_text);
 
             if ($stmt->execute()) {
-                echo "<script>alert('Your review has been added.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+                echo "<script>alert('Your review has been added.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
             } else {
-                echo "<script>alert('Error adding review.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+                echo "<script>alert('Error adding review.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
             }
 
             $stmt->close();
@@ -41,13 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_nume
 
         $check_review_stmt->close();
     } else {
-        echo "<script>alert('Invalid movie ID.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+        echo "<script>alert('Invalid movie ID.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
     }
 
     $check_movie_stmt->close();
 } else {
-    echo "<script>alert('Invalid movie ID.');window.location.href='/ReviewMate/movie/movie_details.php';</script>";
+    echo "<script>alert('Invalid movie ID.');window.location.href='/movie/movie_details.php';</script>";
 }
 
 $conn->close();
-
+?>

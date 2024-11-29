@@ -5,9 +5,10 @@ if (session_status() === PHP_SESSION_NONE) {
 include "../../includes/db_connect.php";
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /ReviewMate/auth/page/login.php");
+    header("Location: /auth/page/login.php");
     exit();
 }
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_numeric($_POST['movie_id'])) {
     $movie_id = intval($conn->real_escape_string($_POST['movie_id']));
     $user_id = $_SESSION['user_id'];
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_nume
         $check_watchlist_result = $check_watchlist_stmt->get_result();
 
         if ($check_watchlist_result->num_rows > 0) {
-            echo "<script>alert('The movie is already in your watchlist.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+            echo "<script>alert('The movie is already in your watchlist.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
         } else {
             $stmt = $conn->prepare("INSERT INTO watchlist (user_id, movie_id, added_date) VALUES (?, ?, CURRENT_TIMESTAMP)");
             if ($stmt === false) {
@@ -42,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_nume
             $stmt->bind_param("ii", $user_id, $movie_id);
 
             if ($stmt->execute()) {
-                echo "<script>alert('The movie is has been added in your watchlist.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+                echo "<script>alert('The movie has been added to your watchlist.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
             } else {
-                echo "<script>alert('Error adding to watchlist.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+                echo "<script>alert('Error adding to watchlist.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
             }
 
             $stmt->close();
@@ -52,12 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_nume
 
         $check_watchlist_stmt->close();
     } else {
-        echo "<script>alert('Invalid movie ID.');window.location.href='/ReviewMate/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+        echo "<script>alert('Invalid movie ID.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
     }
 
     $check_movie_stmt->close();
 } else {
-    echo "<script>alert('Invalid movie ID.');window.location.href='/ReviewMate/movie/movie_details.php';</script>";
+    echo "<script>alert('Invalid movie ID.');window.location.href='/movie/movie_details.php';</script>";
 }
 
 $conn->close();

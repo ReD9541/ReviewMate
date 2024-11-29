@@ -64,7 +64,7 @@ $review_stmt->close();
             <div class="row no-gutters">
                 <div class="col-md-4">
                     <div class="poster-wrapper">
-                        <img src="/ReviewMate/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="Movie Poster" class="img-fluid rounded">
+                        <img src="/<?php echo htmlspecialchars($movie['poster_url']); ?>" alt="Movie Poster" class="img-fluid rounded">
                     </div>
                 </div>
 
@@ -102,14 +102,14 @@ $review_stmt->close();
 
             <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="mt-4 text-center">
-                    <form action="/ReviewMate/auth/process/on_watchlist.php" method="post" class="inline-form d-inline-block">
+                    <form action="/auth/process/on_watchlist.php" method="post" class="inline-form d-inline-block">
                         <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($movie_id); ?>">
                         <button type="submit" class="btn btn-primary mx-2">Add to Watchlist</button>
                     </form>
 
                     <div class="mt-3">
                         <h3 class="text-center">Leave a Review</h3>
-                        <form action="/ReviewMate/auth/process/on_review.php" method="post" class="p-4 border rounded shadow-sm">
+                        <form action="/auth/process/on_review.php" method="post" class="p-4 border rounded shadow-sm">
                             <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($movie_id); ?>">
 
                             <div class="form-group mb-4">
@@ -127,14 +127,14 @@ $review_stmt->close();
                         </form>
                     </div>
 
-                    <form action="/ReviewMate/auth/process/on_mark_watched.php" method="post" class="inline-form d-inline-block">
+                    <form action="/auth/process/on_mark_watched.php" method="post" class="inline-form d-inline-block">
                         <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($movie_id); ?>">
                         <button type="submit" class="btn btn-success mx-2">Mark Watched</button>
                     </form>
                 </div>
             <?php else: ?>
                 <div class="mt-4 text-center">
-                    <a href="/ReviewMate/auth/page/login.php" class="btn btn-primary">Sign in to Review</a>
+                    <a href="/auth/page/login.php" class="btn btn-primary">Sign in to Review</a>
                 </div>
             <?php endif; ?>
 

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $row['email'];
             $_SESSION['username'] = $row['username'];
 
-            header("Location: /ReviewMate/user/profile.php?user_id=" . $row['id']);
+            header("Location: /user/profile.php?user_id=" . $row['id']);
             exit();
         } else {
             echo "<script>alert('Invalid password.');window.location.href='../../auth/page/login.php';</script>";

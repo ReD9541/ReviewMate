@@ -23,14 +23,14 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
         <div class="movie-section my-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="mb-0">Top Rated Movies</h3>
-                <a href="/ReviewMate/movie/top_rated_movies.php" class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Show More</a>
+                <a href="/movie/top_rated_movies.php" class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Show More</a>
             </div>
             <div class="row">
                 <?php while ($movie = $topRatedResult->fetch_assoc()): ?>
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
-                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                        <a href="/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
                             <div class="poster-wrapper">
-                                <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
+                                <img src="/<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
                             </div>
                         </a>
                         <h4 class="mt-2 text-center"><?= htmlspecialchars($movie['title']) ?></h4>
@@ -43,14 +43,14 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
         <div class="movie-section my-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="mb-0">Latest Movies</h3>
-                <a href="/ReviewMate/movie/latest_movies.php"  class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Show More</a>
+                <a href="/movie/latest_movies.php" class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Show More</a>
             </div>
             <div class="row">
                 <?php while ($movie = $latestMoviesResult->fetch_assoc()): ?>
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
-                        <a href="/ReviewMate/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
+                        <a href="/movie/movie_details.php?movie_id=<?= $movie['movie_id'] ?>">
                             <div class="poster-wrapper">
-                                <img src="<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
+                                <img src="/<?= htmlspecialchars($movie['poster_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="img-fluid">
                             </div>
                         </a>
                         <h4 class="mt-2 text-center"><?= htmlspecialchars($movie['title']) ?></h4>

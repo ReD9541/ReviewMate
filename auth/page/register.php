@@ -12,7 +12,7 @@ include_once '../../includes/db_connect.php';
         <div class="form-container">
             <h2 class="text-center">Sign Up</h2>
 
-            <form action="/ReviewMate/auth/process/register_process.php" method="POST">
+            <form action="/auth/process/register_process.php" method="POST">
                 <div class="form-group">
                     <label for="fname">First Name <span style="color:red;">*</span>:</label>
                     <input type="text" class="form-control" id="fname" name="fname" required>

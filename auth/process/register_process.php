@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bio = isset($_POST['bio']) ? trim(mysqli_real_escape_string($conn, $_POST['bio'])) : null;
 
     if (empty($username) || empty($email) || empty($password) || empty($fname) || empty($lname)) {
-        echo "<script>alert('Please fill in all required fields.'); window.location.href = '/ReviewMate/auth/page/register.php';</script>";
+        echo "<script>alert('Please fill in all required fields.'); window.location.href = '/auth/page/register.php';</script>";
         exit();
     }
 
@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_stmt_num_rows($stmt) > 0) {
             mysqli_stmt_close($stmt);
-            echo "<script>alert('Username or email already exists.'); window.location.href = '/ReviewMate/auth/page/register.php';</script>";
+            echo "<script>alert('Username or email already exists.'); window.location.href = '/auth/page/register.php';</script>";
             exit();
         }
         mysqli_stmt_close($stmt);
     } else {
-        echo "<script>alert('Database error: Unable to prepare statement.'); window.location.href = '/ReviewMate/auth/page/register.php';</script>";
+        echo "<script>alert('Database error: Unable to prepare statement.'); window.location.href = '/auth/page/register.php';</script>";
         exit();
     }
 
@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             throw new Exception("Unable to prepare statement for userlogin.");
         }
 
-        // Insert into userinfo
         $insert_userinfo = "INSERT INTO userinfo (login_id, fname, lname, country, address, bio) VALUES (?, ?, ?, ?, ?, ?)";
         if ($stmt = mysqli_prepare($conn, $insert_userinfo)) {
             mysqli_stmt_bind_param($stmt, "isssss", $login_id, $fname, $lname, $country, $address, $bio);
@@ -62,17 +61,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         mysqli_commit($conn);
 
-        echo "<script>alert('Registration successful. Please log in.'); window.location.href = '/ReviewMate/auth/page/login.php';</script>";
+        echo "<script>alert('Registration successful. Please log in.'); window.location.href = '/auth/page/login.php';</script>";
         exit();
     } catch (Exception $e) {
         mysqli_rollback($conn);
         error_log($e->getMessage());
 
-        echo "<script>alert('An error occurred during registration. Please try again.'); window.location.href = '/ReviewMate/auth/page/register.php';</script>";
+        echo "<script>alert('An error occurred during registration. Please try again.'); window.location.href = '/auth/page/register.php';</script>";
         exit();
     }
 } else {
-    header("Location: /ReviewMate/auth/page/register.php");
+    header("Location: /auth/page/register.php");
     exit();
 }
 ?>

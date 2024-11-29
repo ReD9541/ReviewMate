@@ -10,7 +10,7 @@ include '../../includes/header.php';
     <?php else: ?>
         <div class="form-container">
             <h2>Login</h2>
-            <form action="/reviewmate/auth/process/login_process.php" method="POST">
+            <form action="/auth/process/login_process.php" method="POST">
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" name="email" id="email" class="form-control" required>
