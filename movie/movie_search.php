@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         <h2 class="mb-4">Search Movies</h2>
         <form method="get" action="movie_search.php" class="form-inline mb-4">
             <input type="text" name="search" class="form-control mr-2" placeholder="Enter movie title" value="<?php echo htmlspecialchars($search_term); ?>" required>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit"  class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Search</button>
         </form>
 
         <?php if (!empty($movies)): ?>

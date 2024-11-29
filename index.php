@@ -23,7 +23,7 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
         <div class="movie-section my-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="mb-0">Top Rated Movies</h3>
-                <a href="/ReviewMate/movie/top_rated_movies.php" class="btn btn-primary ml-3 my-2">Show More</a>
+                <a href="/ReviewMate/movie/top_rated_movies.php" class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Show More</a>
             </div>
             <div class="row">
                 <?php while ($movie = $topRatedResult->fetch_assoc()): ?>
@@ -43,7 +43,7 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
         <div class="movie-section my-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="mb-0">Latest Movies</h3>
-                <a href="/ReviewMate/movie/latest_movies.php" class="btn btn-primary ml-3 my-2">Show More</a>
+                <a href="/ReviewMate/movie/latest_movies.php"  class="btn btn-primary ml-3 my-2" style="padding: 10px 20px; margin: 10px;">Show More</a>
             </div>
             <div class="row">
                 <?php while ($movie = $latestMoviesResult->fetch_assoc()): ?>
