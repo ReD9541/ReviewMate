@@ -1,5 +1,8 @@
 # ReviewMate
 
+### NOTE:
+**This has been modified to not use "Reviewmate" as the root folder for web hosting**
+
 **ReviewMate** is an engaging movie review website designed to give users the ultimate movie and digital media rating experience. Users can browse an extensive collection of movies, TV series, documentaries, video games, music albums, and books, share personal reviews, and track their media journey with customized profiles.
 
 ## Features
