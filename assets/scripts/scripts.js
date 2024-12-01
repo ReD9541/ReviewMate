@@ -35,124 +35,136 @@ $(document).ready(function () {
   }
 });
 
-$(document).off("submit", "#submit-review").on("submit", "#submit-review", function (e) {
+$(document)
+  .off("submit", "#submit-review")
+  .on("submit", "#submit-review", function (e) {
     e.preventDefault();
 
     const formData = $(this).serialize();
     const submitButton = $(this).find("button[type='submit']");
-    submitButton.prop("disabled", true); 
+    submitButton.prop("disabled", true);
 
     $.ajax({
-        url: "/auth/process/on_review.php",
-        method: "POST",
-        data: formData,
-        dataType: "json",
-        success: function (response) {
-            if (response.success) {
-                alert(response.success);
-                $("#submit-review")[0].reset(); 
-                loadMovieDetails(new URLSearchParams(window.location.search).get("movie_id"));
-            }
-        },
-        error: function (xhr) {
-
-            console.error("Error details:", xhr); 
-            const errorMessage = xhr.responseJSON?.error || "Failed to submit review.";
-            alert(errorMessage);
-        },
-        complete: function () {
-            submitButton.prop("disabled", false);
+      url: "/auth/process/on_review.php",
+      method: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          alert(response.success);
+          $("#submit-review")[0].reset();
+          loadMovieDetails(
+            new URLSearchParams(window.location.search).get("movie_id")
+          );
         }
+      },
+      error: function (xhr) {
+        console.error("Error details:", xhr);
+        const errorMessage =
+          xhr.responseJSON?.error || "Failed to submit review.";
+        alert(errorMessage);
+      },
+      complete: function () {
+        submitButton.prop("disabled", false);
+      },
     });
-});
-
-
+  });
 
 $(document).on("click", "#add-to-watchlist", function () {
-    const movieId = $(this).data("movie-id");
+  const movieId = $(this).data("movie-id");
 
-    $.ajax({
-        url: "/auth/process/on_watchlist.php",
-        method: "POST",
-        data: { movie_id: movieId },
-        dataType: "json",
-        success: function (response) {
-            alert(response.success || "Movie added to watchlist.");
-        },
-        error: function (xhr) {
-            alert(xhr.responseJSON?.error || "Failed to add to watchlist.");
-        }
-    });
+  $.ajax({
+    url: "/auth/process/on_watchlist.php",
+    method: "POST",
+    data: { movie_id: movieId },
+    dataType: "json",
+    success: function (response) {
+      alert(response.success || "Movie added to watchlist.");
+    },
+    error: function (xhr) {
+      alert(xhr.responseJSON?.error || "Failed to add to watchlist.");
+    },
+  });
 });
 
 $(document).on("click", "#mark-watched", function () {
-    const movieId = $(this).data("movie-id");
+  const movieId = $(this).data("movie-id");
+
+  $.ajax({
+    url: "/auth/process/on_mark_watched.php",
+    method: "POST",
+    data: { movie_id: movieId },
+    dataType: "json",
+    success: function (response) {
+      alert(response.success || "Marked as watched.");
+    },
+    error: function (xhr) {
+      alert(xhr.responseJSON?.error || "Failed to mark as watched.");
+    },
+  });
+});
+
+$(document).ready(function () {
+  $(document).on("submit", "#login-form", function (e) {
+    e.preventDefault();
+
+    const formData = $(this).serialize();
 
     $.ajax({
-        url: "/auth/process/on_mark_watched.php",
-        method: "POST",
-        data: { movie_id: movieId },
-        dataType: "json",
-        success: function (response) {
-            alert(response.success || "Marked as watched.");
-        },
-        error: function (xhr) {
-            alert(xhr.responseJSON?.error || "Failed to mark as watched.");
+      url: "/auth/process/login_process.php",
+      method: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          $("#login-feedback").html(
+            `<div class="alert alert-success">${response.success}</div>`
+          );
+          setTimeout(() => {
+            window.location.href = response.redirect;
+          }, 1500);
         }
+      },
+      error: function (xhr) {
+        const error =
+          xhr.responseJSON?.error || "An error occurred during login.";
+        $("#login-feedback").html(
+          `<div class="alert alert-danger">${error}</div>`
+        );
+      },
     });
-});
-
-$(document).ready(function () {
-    $(document).on("submit", "#login-form", function (e) {
-        e.preventDefault();
-
-        const formData = $(this).serialize();
-
-        $.ajax({
-            url: "/auth/process/login_process.php",
-            method: "POST",
-            data: formData,
-            dataType: "json",
-            success: function (response) {
-                if (response.success) {
-                    $("#login-feedback").html(`<div class="alert alert-success">${response.success}</div>`);
-                    setTimeout(() => {
-                        window.location.href = response.redirect;
-                    }, 1500);
-                }
-            },
-            error: function (xhr) {
-                const error = xhr.responseJSON?.error || "An error occurred during login.";
-                $("#login-feedback").html(`<div class="alert alert-danger">${error}</div>`);
-            }
-        });
-    });
+  });
 });
 $(document).ready(function () {
-    $(document).on("submit", "#register-form", function (e) {
-        e.preventDefault();
+  $(document).on("submit", "#register-form", function (e) {
+    e.preventDefault();
 
-        const formData = $(this).serialize();
+    const formData = $(this).serialize();
 
-        $.ajax({
-            url: "/auth/process/register_process.php",
-            method: "POST",
-            data: formData,
-            dataType: "json",
-            success: function (response) {
-                if (response.success) {
-                    $("#register-feedback").html(`<div class="alert alert-success">${response.success}</div>`);
-                    setTimeout(() => {
-                        window.location.href = "/auth/page/login.php";
-                    }, 2000); 
-                }
-            },
-            error: function (xhr) {
-                const error = xhr.responseJSON?.error || "An error occurred during registration.";
-                $("#register-feedback").html(`<div class="alert alert-danger">${error}</div>`);
-            }
-        });
+    $.ajax({
+      url: "/auth/process/register_process.php",
+      method: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          $("#register-feedback").html(
+            `<div class="alert alert-success">${response.success}</div>`
+          );
+          setTimeout(() => {
+            window.location.href = "/auth/page/login.php";
+          }, 2000);
+        }
+      },
+      error: function (xhr) {
+        const error =
+          xhr.responseJSON?.error || "An error occurred during registration.";
+        $("#register-feedback").html(
+          `<div class="alert alert-danger">${error}</div>`
+        );
+      },
     });
+  });
 });
 function performSearch(searchTerm) {
   $.ajax({
@@ -271,26 +283,32 @@ function loadLatestMovies() {
       const html = movies
         .map(
           (movie) => `
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
-                    <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                        <div class="poster-wrapper">
-                            <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
-                        </div>
-                        <h4 class="mt-2 text-center">${movie.title}</h4>
-                        <p class="text-center">Release Date: ${movie.release_date}</p>
-                    </a>
-                </div>`
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+              <div class="movie-grid" >
+                <div class="movie-image">
+                  <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
+                    <img src="/${movie.poster_url}" class="img-fluid" alt="${movie.title}">
+                  </a>
+                  <span class="movie-rating-label">Release Date: ${movie.release_date}</span>
+                  <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="movie-details-btn">View Details</a>
+                </div>
+                <div class="movie-content text-center">
+                  <h3 class="movie-title"><a href="/movie/movie_details.php?movie_id=${movie.movie_id}">${movie.title}</a></h3>
+                </div>
+              </div>
+            </div>
+          `
         )
         .join("");
       $("#latest-movies-section").html(html);
     },
     error: function () {
-      alert(
-        "An error occurred while fetching the latest movies. Please try again."
-      );
+      alert("An error occurred while fetching the latest movies. Please try again.");
     },
   });
 }
+
+
 
 function loadTopRatedMovies() {
   $.ajax({
@@ -299,18 +317,28 @@ function loadTopRatedMovies() {
     dataType: "json",
     success: function (movies) {
       const html = movies
-        .map(
-          (movie) => `
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
-                    <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                        <div class="poster-wrapper">
-                            <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
-                        </div>
-                        <h4 class="mt-2 text-center">${movie.title}</h4>
-                        <p class="text-center">IMDb Rating: ${movie.imdb_rating}</p>
-                    </a>
-                </div>`
-        )
+      .map(
+        (movie) => `
+          <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+            <div class="movie-grid">
+              <div class="movie-image">
+                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
+                  <img src="/${movie.poster_url}" class="img-fluid" alt="${movie.title}">
+                </a>
+                <span class="movie-rating-label">IMDB: ${movie.imdb_rating}</span>
+              </div>
+              <div class="movie-content text-center">
+                <h3 class="movie-title">
+                  <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">${movie.title}</a>
+                </h3>
+                <div class="text-center mt-2">
+                  <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="btn btn-primary">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      )
         .join("");
       $("#top-rated-movies-section").html(html);
     },
