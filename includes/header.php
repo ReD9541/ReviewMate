@@ -25,12 +25,13 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'movie_search.php' ? 'active' : ''; ?>">
                         <form class="navbar-form navbar-left" method="GET" action="/movie/movie_search.php">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="search" placeholder="Search Movies" aria-label="Search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                                <input type="text" class="form-control" name="search" placeholder="Search Movies" aria-label="Search" 
+                                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                             </div>
                             <button type="submit" class="btn btn-default">
                                 <i class="fa fa-search"></i> Search
                             </button>
-                        </form> 
+                        </form>
                     </li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'profile.php' ? 'active' : ''; ?>">

@@ -2,12 +2,15 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 include_once '../../includes/db_connect.php';
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim(mysqli_real_escape_string($conn, $_POST['username']));
     $email = trim(mysqli_real_escape_string($conn, $_POST['email']));
-    $password = $_POST['password']; 
+    $password = $_POST['password'];
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
     $fname = trim(mysqli_real_escape_string($conn, $_POST['fname']));
     $lname = trim(mysqli_real_escape_string($conn, $_POST['lname']));
@@ -16,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bio = isset($_POST['bio']) ? trim(mysqli_real_escape_string($conn, $_POST['bio'])) : null;
 
     if (empty($username) || empty($email) || empty($password) || empty($fname) || empty($lname)) {
-        echo "<script>alert('Please fill in all required fields.'); window.location.href = '/auth/page/register.php';</script>";
+        http_response_code(400);
+        echo json_encode(["error" => "Please fill in all required fields."]);
         exit();
     }
 
@@ -28,12 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_stmt_num_rows($stmt) > 0) {
             mysqli_stmt_close($stmt);
-            echo "<script>alert('Username or email already exists.'); window.location.href = '/auth/page/register.php';</script>";
+            http_response_code(409);
+            echo json_encode(["error" => "Username or email already exists."]);
             exit();
         }
         mysqli_stmt_close($stmt);
     } else {
-        echo "<script>alert('Database error: Unable to prepare statement.'); window.location.href = '/auth/page/register.php';</script>";
+        http_response_code(500);
+        echo json_encode(["error" => "Database error: Unable to prepare statement."]);
         exit();
     }
 
@@ -61,17 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         mysqli_commit($conn);
 
-        echo "<script>alert('Registration successful. Please log in.'); window.location.href = '/auth/page/login.php';</script>";
+        echo json_encode(["success" => "Registration successful. Please log in."]);
         exit();
     } catch (Exception $e) {
         mysqli_rollback($conn);
         error_log($e->getMessage());
 
-        echo "<script>alert('An error occurred during registration. Please try again.'); window.location.href = '/auth/page/register.php';</script>";
+        http_response_code(500);
+        echo json_encode(["error" => "An error occurred during registration. Please try again."]);
         exit();
     }
 } else {
-    header("Location: /auth/page/register.php");
-    exit();
+    http_response_code(405);
+    echo json_encode(["error" => "Invalid request method."]);
 }
 ?>

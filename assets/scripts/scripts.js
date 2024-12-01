@@ -10,12 +10,11 @@ $(document).ready(function () {
   } else if (page === "movie-details") {
     const params = new URLSearchParams(window.location.search);
     const movieId = params.get("movie_id");
-
-    if (movieId) {
-      loadMovieDetails(movieId);
-    } else {
-      $("#movie-details").html("<p class='text-center'>Invalid movie ID.</p>");
-    }
+    movieId
+      ? loadMovieDetails(movieId)
+      : $("#movie-details").html(
+          "<p class='text-center'>Invalid movie ID.</p>"
+        );
   } else if (page === "movie-search") {
     $("#search-form").on("submit", function (e) {
       e.preventDefault();
@@ -25,7 +24,7 @@ $(document).ready(function () {
         performSearch(searchTerm);
       } else {
         $("#search-results").html(
-          "<p>Please enter a movie title to search.</p>"
+          "<p class='text-center'>Please enter a movie title to search.</p>"
         );
       }
     });
@@ -36,16 +35,170 @@ $(document).ready(function () {
   }
 });
 
+$(document).off("submit", "#submit-review").on("submit", "#submit-review", function (e) {
+    e.preventDefault();
+
+    const formData = $(this).serialize();
+    const submitButton = $(this).find("button[type='submit']");
+    submitButton.prop("disabled", true); 
+
+    $.ajax({
+        url: "/auth/process/on_review.php",
+        method: "POST",
+        data: formData,
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                alert(response.success);
+                $("#submit-review")[0].reset(); 
+                loadMovieDetails(new URLSearchParams(window.location.search).get("movie_id"));
+            }
+        },
+        error: function (xhr) {
+
+            console.error("Error details:", xhr); 
+            const errorMessage = xhr.responseJSON?.error || "Failed to submit review.";
+            alert(errorMessage);
+        },
+        complete: function () {
+            submitButton.prop("disabled", false);
+        }
+    });
+});
+
+
+
+$(document).on("click", "#add-to-watchlist", function () {
+    const movieId = $(this).data("movie-id");
+
+    $.ajax({
+        url: "/auth/process/on_watchlist.php",
+        method: "POST",
+        data: { movie_id: movieId },
+        dataType: "json",
+        success: function (response) {
+            alert(response.success || "Movie added to watchlist.");
+        },
+        error: function (xhr) {
+            alert(xhr.responseJSON?.error || "Failed to add to watchlist.");
+        }
+    });
+});
+
+$(document).on("click", "#mark-watched", function () {
+    const movieId = $(this).data("movie-id");
+
+    $.ajax({
+        url: "/auth/process/on_mark_watched.php",
+        method: "POST",
+        data: { movie_id: movieId },
+        dataType: "json",
+        success: function (response) {
+            alert(response.success || "Marked as watched.");
+        },
+        error: function (xhr) {
+            alert(xhr.responseJSON?.error || "Failed to mark as watched.");
+        }
+    });
+});
+
+$(document).ready(function () {
+    $(document).on("submit", "#login-form", function (e) {
+        e.preventDefault();
+
+        const formData = $(this).serialize();
+
+        $.ajax({
+            url: "/auth/process/login_process.php",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    $("#login-feedback").html(`<div class="alert alert-success">${response.success}</div>`);
+                    setTimeout(() => {
+                        window.location.href = response.redirect;
+                    }, 1500);
+                }
+            },
+            error: function (xhr) {
+                const error = xhr.responseJSON?.error || "An error occurred during login.";
+                $("#login-feedback").html(`<div class="alert alert-danger">${error}</div>`);
+            }
+        });
+    });
+});
+$(document).ready(function () {
+    $(document).on("submit", "#register-form", function (e) {
+        e.preventDefault();
+
+        const formData = $(this).serialize();
+
+        $.ajax({
+            url: "/auth/process/register_process.php",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    $("#register-feedback").html(`<div class="alert alert-success">${response.success}</div>`);
+                    setTimeout(() => {
+                        window.location.href = "/auth/page/login.php";
+                    }, 2000); 
+                }
+            },
+            error: function (xhr) {
+                const error = xhr.responseJSON?.error || "An error occurred during registration.";
+                $("#register-feedback").html(`<div class="alert alert-danger">${error}</div>`);
+            }
+        });
+    });
+});
+function performSearch(searchTerm) {
+  $.ajax({
+    url: "/movie/fetch_search_movies.php",
+    method: "GET",
+    data: { search: searchTerm },
+    dataType: "json",
+    success: function (data) {
+      if (data.movies && data.movies.length > 0) {
+        let html = "";
+        data.movies.forEach((movie) => {
+          html += `
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+                            <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
+                                <div class="poster-wrapper">
+                                    <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
+                                </div>
+                                <h4 class="mt-2 text-center">${movie.title}</h4>
+                                <p class="text-center">Release Date: ${movie.release_date}</p>
+                                <p class="text-center">IMDb Rating: ${movie.imdb_rating}</p>
+                            </a>
+                        </div>`;
+        });
+        $("#search-results").html(html);
+      } else {
+        $("#search-results").html(
+          '<p class="text-center">No movies found.</p>'
+        );
+      }
+    },
+    error: function () {
+      $("#search-results").html(
+        '<p class="text-center text-danger">An error occurred. Please try again.</p>'
+      );
+    },
+  });
+}
+
 function loadUserProfile() {
   $.ajax({
     url: "/user/fetch_user_data.php",
     method: "GET",
     dataType: "json",
     success: function (data) {
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
+      if (data.error) return alert(data.error);
+
       const user = data.userinfo;
       const profileHtml = `
                 <div class="profile-picture mr-4">
@@ -84,17 +237,16 @@ function populateMovies(movies, container, type) {
     $(container).html("<p class='text-center'>No movies found.</p>");
     return;
   }
-  let html = "";
-  movies.forEach((movie) => {
-    html += `
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
-                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                    <div class="poster-wrapper">
-                        <img src="/${movie.poster_url}" alt="${
-      movie.title
-    }" class="img-fluid">
-                    </div>
-                </a>
+  const html = movies
+    .map(
+      (movie) => `
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
+            <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
+                <div class="poster-wrapper">
+                    <img src="/${movie.poster_url}" alt="${
+        movie.title
+      }" class="img-fluid">
+                </div>
                 <h4 class="mt-2 text-center">${movie.title}</h4>
                 <p class="text-center">Release Date: ${movie.release_date}</p>
                 <p class="text-center">IMDb Rating: ${movie.imdb_rating}</p>
@@ -103,8 +255,10 @@ function populateMovies(movies, container, type) {
                     ? `<p class="text-center">"${movie.review_text}"</p>`
                     : ""
                 }
-            </div>`;
-  });
+            </a>
+        </div>`
+    )
+    .join("");
   $(container).html(html);
 }
 
@@ -114,19 +268,20 @@ function loadLatestMovies() {
     method: "GET",
     dataType: "json",
     success: function (movies) {
-      let html = "";
-      movies.forEach((movie) => {
-        html += `
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
-                        <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                            <div class="poster-wrapper">
-                                <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
-                            </div>
-                        </a>
+      const html = movies
+        .map(
+          (movie) => `
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
+                    <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
+                        <div class="poster-wrapper">
+                            <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
+                        </div>
                         <h4 class="mt-2 text-center">${movie.title}</h4>
                         <p class="text-center">Release Date: ${movie.release_date}</p>
-                    </div>`;
-      });
+                    </a>
+                </div>`
+        )
+        .join("");
       $("#latest-movies-section").html(html);
     },
     error: function () {
@@ -143,19 +298,20 @@ function loadTopRatedMovies() {
     method: "GET",
     dataType: "json",
     success: function (movies) {
-      let html = "";
-      movies.forEach((movie) => {
-        html += `
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
-                        <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                            <div class="poster-wrapper">
-                                <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
-                            </div>
-                        </a>
+      const html = movies
+        .map(
+          (movie) => `
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 movie-card mb-4">
+                    <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
+                        <div class="poster-wrapper">
+                            <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
+                        </div>
                         <h4 class="mt-2 text-center">${movie.title}</h4>
                         <p class="text-center">IMDb Rating: ${movie.imdb_rating}</p>
-                    </div>`;
-      });
+                    </a>
+                </div>`
+        )
+        .join("");
       $("#top-rated-movies-section").html(html);
     },
     error: function () {
@@ -176,12 +332,13 @@ function loadMovieDetails(movieId) {
       const movie = data.movie;
       const reviews = data.reviews;
 
-      // Populate movie details
       const movieHtml = `
                 <div class="card mb-5">
                     <div class="row no-gutters">
                         <div class="col-md-4">
-                            <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid rounded">
+                            <img src="/${movie.poster_url}" alt="${
+        movie.title
+      }" class="img-fluid rounded">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -202,8 +359,6 @@ function loadMovieDetails(movieId) {
                                 <p><strong>Age Rating:</strong> ${
                                   movie.age_rating
                                 }</p>
-                                <p><strong>Budget:</strong> $${movie.budget.toLocaleString()}</p>
-                                <p><strong>Box Office:</strong> $${movie.box_office.toLocaleString()}</p>
                                 <p><strong>Description:</strong> ${
                                   movie.description
                                 }</p>
@@ -258,17 +413,6 @@ function loadMovieDetails(movieId) {
       );
     },
   });
-}
-function loadMovieSearch() {
-  console.log("Movie Search Page Placeholder");
-}
-
-function loadRegisterPage() {
-  console.log("Register Page Placeholder");
-}
-
-function loadLoginPage() {
-  console.log("Login Page Placeholder");
 }
 
 $(document).on("click", "#add-to-watchlist", function () {

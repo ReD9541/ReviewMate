@@ -10,7 +10,7 @@ include '../../includes/header.php';
     <?php else: ?>
         <div class="form-container">
             <h2>Login</h2>
-            <form action="/auth/process/login_process.php" method="POST">
+            <form id="login-form" class="ajax-form">
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" name="email" id="email" class="form-control" required>
@@ -21,6 +21,7 @@ include '../../includes/header.php';
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
+            <div id="login-feedback" class="mt-3"></div>
         </div>
     <?php endif; ?>
 </div>
@@ -28,3 +29,4 @@ include '../../includes/header.php';
 <?php
 include '../../includes/footer.php';
 ?>
+<script src="/assets/scripts/scripts.js"></script>

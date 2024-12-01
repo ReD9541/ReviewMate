@@ -5,10 +5,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include "../includes/db_connect.php";
 
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
     $search_term = trim($_GET['search']);
 
-    if ($search_term != '') {
+    if (!empty($search_term)) {
         $search_param = '%' . $search_term . '%';
         $sql = "SELECT movie_id, title, release_date, imdb_rating, poster_url FROM movie WHERE title LIKE ?";
         $stmt = $conn->prepare($sql);
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $movies = $result->fetch_all(MYSQLI_ASSOC);
-            echo json_encode($movies);
+            echo json_encode(['movies' => $movies]);
         } else {
             http_response_code(500);
             echo json_encode(["error" => "Error executing query: " . $stmt->error]);
@@ -25,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
 
         $stmt->close();
     } else {
-        echo json_encode([]);
+        echo json_encode(['movies' => []]);
     }
 } else {
     http_response_code(400);

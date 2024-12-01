@@ -1,6 +1,5 @@
 <?php
 include_once '../../includes/header.php';
-include_once '../../includes/db_connect.php';
 ?>
 
 <div class="container main-content">
@@ -12,7 +11,7 @@ include_once '../../includes/db_connect.php';
         <div class="form-container">
             <h2 class="text-center">Sign Up</h2>
 
-            <form action="/auth/process/register_process.php" method="POST">
+            <form id="register-form" class="ajax-form">
                 <div class="form-group">
                     <label for="fname">First Name <span style="color:red;">*</span>:</label>
                     <input type="text" class="form-control" id="fname" name="fname" required>
@@ -55,6 +54,7 @@ include_once '../../includes/db_connect.php';
 
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
+            <div id="register-feedback" class="mt-3"></div>
         </div>
     <?php endif; ?>
 </div>
@@ -62,3 +62,4 @@ include_once '../../includes/db_connect.php';
 <?php
 include_once '../../includes/footer.php';
 ?>
+<script src="/assets/scripts/scripts.js"></script>

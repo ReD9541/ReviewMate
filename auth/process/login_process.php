@@ -1,8 +1,10 @@
 <?php
 session_start();
-include "../../includes/db_connect.php"; 
+include "../../includes/db_connect.php";
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $conn->real_escape_string($_POST['email']);
@@ -10,7 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $stmt = $conn->prepare("SELECT id, username, email, password_hash FROM userlogin WHERE email = ?");
     if ($stmt === false) {
-        die("Error preparing the query: " . $conn->error);
+        http_response_code(500);
+        echo json_encode(["error" => "Error preparing the query."]);
+        exit();
     }
 
     $stmt->bind_param("s", $email);
@@ -25,16 +29,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $row['email'];
             $_SESSION['username'] = $row['username'];
 
-            header("Location: /user/profile.php?user_id=" . $row['id']);
-            exit();
+            echo json_encode(["success" => "Login successful.", "redirect" => "/user/profile.php?user_id=" . $row['id']]);
         } else {
-            echo "<script>alert('Invalid password.');window.location.href='../../auth/page/login.php';</script>";
+            http_response_code(401);
+            echo json_encode(["error" => "Invalid password."]);
         }
     } else {
-        echo "<script>alert('No account found with this email.');window.location.href='../../auth/page/login.php';</script>";
+        http_response_code(404);
+        echo json_encode(["error" => "No account found with this email."]);
     }
 
     $stmt->close();
     $conn->close();
+} else {
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid request method."]);
 }
 ?>
