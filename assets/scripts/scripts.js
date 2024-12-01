@@ -181,11 +181,7 @@ function loadMovieDetails(movieId) {
                 <div class="card mb-5">
                     <div class="row no-gutters">
                         <div class="col-md-4">
-                            <div class="poster-wrapper">
-                                <img src="/${movie.poster_url}" alt="${
-        movie.title
-      }" class="img-fluid rounded">
-                            </div>
+                            <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid rounded">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
