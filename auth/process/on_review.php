@@ -1,53 +1,35 @@
 <?php
-session_start();
-include "../../includes/db_connect.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /auth/page/login.php");
+    http_response_code(401);
+    echo json_encode(["error" => "User not authenticated."]);
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id']) && is_numeric($_POST['movie_id']) && isset($_POST['rating']) && isset($_POST['review_text'])) {
-    $movie_id = intval($_POST['movie_id']);
+include "../../includes/db_connect.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['movie_id'], $_POST['rating'], $_POST['review_text']) && is_numeric($_POST['movie_id']) && is_numeric($_POST['rating'])) {
     $user_id = $_SESSION['user_id'];
+    $movie_id = intval($_POST['movie_id']);
     $rating = intval($_POST['rating']);
-    $review_text = $_POST['review_text'];
+    $review_text = $conn->real_escape_string($_POST['review_text']);
 
-    $check_movie_stmt = $conn->prepare("SELECT movie_id FROM movie WHERE movie_id = ?");
-    $check_movie_stmt->bind_param("i", $movie_id);
-    $check_movie_stmt->execute();
-    $check_movie_result = $check_movie_stmt->get_result();
+    $stmt = $conn->prepare("INSERT INTO reviews (user_id, movie_id, rating, review_text) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiis", $user_id, $movie_id, $rating, $review_text);
 
-    if ($check_movie_result->num_rows > 0) {
-        $check_review_stmt = $conn->prepare("SELECT * FROM reviews WHERE user_id = ? AND movie_id = ?");
-        $check_review_stmt->bind_param("ii", $user_id, $movie_id);
-        $check_review_stmt->execute();
-        $check_review_result = $check_review_stmt->get_result();
-
-        if ($check_review_result->num_rows > 0) {
-            echo "<script>alert('You\'ve already reviewed this movie.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
-        } else {
-            $stmt = $conn->prepare("INSERT INTO reviews (user_id, movie_id, rating, review_text, review_date) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)");
-            $stmt->bind_param("iiis", $user_id, $movie_id, $rating, $review_text);
-
-            if ($stmt->execute()) {
-                echo "<script>alert('Your review has been added.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
-            } else {
-                echo "<script>alert('Error adding review.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
-            }
-
-            $stmt->close();
-        }
-
-        $check_review_stmt->close();
+    if ($stmt->execute()) {
+        echo json_encode(["success" => "Review submitted."]);
     } else {
-        echo "<script>alert('Invalid movie ID.');window.location.href='/movie/movie_details.php?movie_id=" . $movie_id . "';</script>";
+        http_response_code(500);
+        echo json_encode(["error" => "Failed to submit review."]);
     }
-
-    $check_movie_stmt->close();
+    $stmt->close();
+    $conn->close();
 } else {
-    echo "<script>alert('Invalid movie ID.');window.location.href='/movie/movie_details.php';</script>";
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid request."]);
 }
-
-$conn->close();
 ?>
