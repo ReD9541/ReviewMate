@@ -18,17 +18,17 @@ include "../includes/header.php";
 
         <div id="watched-section" class="movie-section my-5">
             <h3 class="mb-4">Movies Watched</h3>
-            <div class="row" id="watched-movies"></div>
+            <div class="row g-4" id="watched-movies"></div>
         </div>
 
         <div id="reviewed-section" class="movie-section my-5">
             <h3 class="mb-4">Movies Reviewed</h3>
-            <div class="row" id="reviewed-movies"></div>
+            <div class="row g-4" id="reviewed-movies"></div>
         </div>
 
         <div id="watchlist-section" class="movie-section my-5">
             <h3 class="mb-4">Watchlist</h3>
-            <div class="row" id="watchlist-movies"></div>
+            <div class="row g-4 " id="watchlist-movies"></div>
         </div>
     </div>
 </main>
