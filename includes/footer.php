@@ -5,21 +5,10 @@
             <div class="col-md-3 mb-3">
                 <h4>Quick Links</h4>
                 <ul class="list-unstyled">
-                    <li><a href="/info/about.php">About Us</a></li>
                     <li><a href="/info/privacy.php">Privacy Policy</a></li>
                     <li><a href="/info/terms.php">Terms of Service</a></li>
                 </ul>
             </div>
-
-            <div class="col-md-3 mb-3">
-                <h4>User</h4>
-                <ul class="list-unstyled">
-                    <li><a href="/auth/page/login.php">Login</a></li>
-                    <li><a href="/auth/page/register.php">Sign Up</a></li>
-                    <li><a href="/user/profile.php">Profile</a></li>
-                </ul>
-            </div>
-
             <div class="col-md-3 mb-3">
                 <h4>Connect with Us</h4>
                 <a href="https://facebook.com" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-facebook"></i> Facebook</a>
