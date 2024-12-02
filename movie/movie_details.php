@@ -46,7 +46,7 @@ if (!$movie_id) {
                     </form>
                 </div>
             <?php else: ?>
-                <p class="text-center">Please <a href="/auth/login.php">log in</a> to use these features.</p>
+                <p class="text-center">Please <a href="/auth/page/login.php">log in</a> to use these features.</p>
             <?php endif; ?>
         </div>
 
