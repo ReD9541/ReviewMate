@@ -15,37 +15,41 @@ if (!$movie_id) {
 ?>
 
 <main data-page="movie-details" class="main-content">
-    <div class="container my-5">
+    <div class="container my-2">
         <div id="movie-details" class="movie-details-wrapper"></div>
-        <div class="mt-4 text-center">
+        <div class="mt-4">
             <?php if (isset($_SESSION['user_id'])): ?>
-                <button id="add-to-watchlist" style="margin:10px;" class="btn btn-primary mx-2"
-                    data-movie-id="<?php echo htmlspecialchars($movie_id); ?>">Add to Watchlist</button>
-                
-                <div class="mt-3">
-                    <h3 class="text-center">Leave a Review</h3>
-                    <form id="submit-review" style="margin:10px;" class="p-4 border rounded shadow-sm">
-                        <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($movie_id); ?>">
-                        <div class="form-group mb-4">
-                            <label for="rating" class="form-label">Rating:</label>
-                            <input type="range" id="rating" name="rating" min="1" max="10" class="form-control-range w-100"
-                                oninput="this.nextElementSibling.value = this.value">
-                            <output>5</output>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="review_text" class="form-label">Review:</label>
-                            <textarea id="review_text" name="review_text" class="form-control" rows="4" required></textarea>
-                        </div>
-                        <button style="margin:10px;" type="submit" class="btn btn-info">Submit Review</button>
-                    </form>
+                <div class="d-flex justify-content-center mb-4">
+                    <button id="add-to-watchlist" class="btn btn-primary mx-2"
+                        data-movie-id="<?php echo htmlspecialchars($movie_id); ?>">Add to Watchlist</button>
+                    <button id="mark-watched" class="btn btn-success mx-2"
+                        data-movie-id="<?php echo htmlspecialchars($movie_id); ?>">Mark as Watched</button>
                 </div>
 
-                <button id="mark-watched" class="btn btn-success mx-2"
-                    data-movie-id="<?php echo htmlspecialchars($movie_id); ?>">Mark Watched</button>
+                <div class="p-4 border rounded shadow-sm mx-auto" style="max-width: 600px;">
+                    <h3 class="text-center mb-4">Leave a Review</h3>
+                    <form id="submit-review">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <label for="rating" class="form-label me-3">Rating:</label>
+                            <input type="range" id="rating" name="rating" min="1" max="10" class="form-range w-100"
+                                oninput="this.nextElementSibling.value = this.value">
+                            <output class="ms-3">5</output>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <textarea id="review_text" name="review_text" class="form-control" rows="4" placeholder="Write your review here..." required></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-info px-4">Submit Review</button>
+                        </div>
+                    </form>
+                </div>
             <?php else: ?>
                 <p class="text-center">Please <a href="/auth/login.php">log in</a> to use these features.</p>
             <?php endif; ?>
         </div>
+
 
         <div id="reviews-section" class="reviews-section mt-5"></div>
     </div>

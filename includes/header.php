@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>ReviewMate</title>
@@ -12,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/styles/style.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/index.php">
@@ -62,4 +64,5 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

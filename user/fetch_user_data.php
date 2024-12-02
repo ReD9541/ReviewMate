@@ -11,8 +11,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-
-// Prepare the response array
 $response = [];
 
 // Fetch user info
@@ -64,4 +62,3 @@ header('Content-Type: application/json');
 echo json_encode($response);
 
 $conn->close();
-?>

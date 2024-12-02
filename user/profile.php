@@ -13,31 +13,43 @@ include "../includes/header.php";
 ?>
 
 <main data-page="profile" class="main-content">
-    <div class="container-fluid">
-        <div id="profile-section" class="profile-wrapper mb-5">
-        </div>
+    <div class="container">
+        
 
-        <div id="watched-section" class="movie-section my-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold mb-0">Movies Watched</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <span class="panel-icon"><i class="fa fa-pencil"></i></span>
+                        <span class="panel-title">About Me</span>
+                    </div>
+                    <div id="profile-section" class="page-heading mb-4">
+                    </div>
+                </div>
             </div>
-            <div class="row g-4" id="watched-movies">
-            </div>
-        </div>
 
-        <div id="reviewed-section" class="movie-section my-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold mb-0">Movies Reviewed</h3>
-            </div>
-            <div class="row g-4" id="reviewed-movies">
-            </div>
-        </div>
-
-        <div id="watchlist-section" class="movie-section my-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold mb-0">Watchlist</h3>
-            </div>
-            <div class="row g-4" id="watchlist-movies">
+            <div class="col-md-8">
+                <div class="tab-block">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#watched" data-toggle="tab">Movies Watched</a></li>
+                        <li><a href="#reviewed" data-toggle="tab">Movies Reviewed</a></li>
+                        <li><a href="#watchlist" data-toggle="tab">Watchlist</a></li>
+                    </ul>
+                    <div class="tab-content p30">
+                        <div id="watched" class="tab-pane active">
+                            <div class="row g-4" id="watched-movies">
+                            </div>
+                        </div>
+                        <div id="reviewed" class="tab-pane">
+                            <div class="row g-4" id="reviewed-movies">
+                            </div>
+                        </div>
+                        <div id="watchlist" class="tab-pane">
+                            <div class="row g-4" id="watchlist-movies">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -46,3 +58,8 @@ include "../includes/header.php";
 <?php include "../includes/footer.php"; ?>
 
 <script src="/assets/scripts/scripts.js"></script>
+<script>
+    $(document).ready(function () {
+        loadUserProfile();
+    });
+</script>

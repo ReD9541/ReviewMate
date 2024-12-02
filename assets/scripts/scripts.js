@@ -35,40 +35,39 @@ $(document).ready(function () {
   }
 });
 
-$(document)
-  .off("submit", "#submit-review")
-  .on("submit", "#submit-review", function (e) {
-    e.preventDefault();
+$(document).on("submit", "#submit-review", function (e) {
+  e.preventDefault();
 
-    const formData = $(this).serialize();
-    const submitButton = $(this).find("button[type='submit']");
-    submitButton.prop("disabled", true);
+  const formData = $(this).serialize();
+  const submitButton = $(this).find("button[type='submit']");
+  submitButton.prop("disabled", true);
 
-    $.ajax({
-      url: "/auth/process/on_review.php",
-      method: "POST",
-      data: formData,
-      dataType: "json",
-      success: function (response) {
-        if (response.success) {
-          alert(response.success);
-          $("#submit-review")[0].reset();
-          loadMovieDetails(
-            new URLSearchParams(window.location.search).get("movie_id")
-          );
-        }
-      },
-      error: function (xhr) {
-        console.error("Error details:", xhr);
-        const errorMessage =
-          xhr.responseJSON?.error || "Failed to submit review.";
-        alert(errorMessage);
-      },
-      complete: function () {
-        submitButton.prop("disabled", false);
-      },
-    });
+  $.ajax({
+    url: "/auth/process/on_review.php",
+    method: "POST",
+    data: formData,
+    dataType: "json",
+    success: function (response) {
+      if (response.success) {
+        alert(response.success);
+        $("#submit-review")[0].reset();
+        loadMovieDetails(
+          new URLSearchParams(window.location.search).get("movie_id")
+        );
+      } else if (response.error) {
+        alert(response.error);
+      }
+    },
+    error: function (xhr) {
+      const errorMessage =
+        xhr.responseJSON?.error || "An error occurred while submitting the review.";
+      alert(errorMessage);
+    },
+    complete: function () {
+      submitButton.prop("disabled", false);
+    },
   });
+});
 
 $(document).on("click", "#add-to-watchlist", function () {
   const movieId = $(this).data("movie-id");
@@ -79,10 +78,16 @@ $(document).on("click", "#add-to-watchlist", function () {
     data: { movie_id: movieId },
     dataType: "json",
     success: function (response) {
-      alert(response.success || "Movie added to watchlist.");
+      if (response.success) {
+        alert(response.success);
+      } else if (response.error) {
+        alert(response.error);
+      }
     },
     error: function (xhr) {
-      alert(xhr.responseJSON?.error || "Failed to add to watchlist.");
+      const errorMessage =
+        xhr.responseJSON?.error || "An error occurred while adding to watchlist.";
+      alert(errorMessage);
     },
   });
 });
@@ -96,13 +101,20 @@ $(document).on("click", "#mark-watched", function () {
     data: { movie_id: movieId },
     dataType: "json",
     success: function (response) {
-      alert(response.success || "Marked as watched.");
+      if (response.success) {
+        alert(response.success);
+      } else if (response.error) {
+        alert(response.error);
+      }
     },
     error: function (xhr) {
-      alert(xhr.responseJSON?.error || "Failed to mark as watched.");
+      const errorMessage =
+        xhr.responseJSON?.error || "An error occurred while marking as watched.";
+      alert(errorMessage);
     },
   });
 });
+
 
 $(document).ready(function () {
   $(document).on("submit", "#login-form", function (e) {
@@ -257,7 +269,7 @@ function populateMovies(movies, container, type) {
   const html = movies
     .map(
       (movie) => `
-        <div class="movie_tile col-12 col-sm-6 col-md-4 col-lg-2">
+        <div class="movie_tile col-4">
           <div class="movie-grid">
             <div class="movie-image">
               <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
@@ -456,53 +468,3 @@ function loadMovieDetails(movieId) {
     },
   });
 }
-
-$(document).on("click", "#add-to-watchlist", function () {
-  const movieId = $(this).data("movie-id");
-
-  $.ajax({
-    url: "/auth/process/on_watchlist.php",
-    method: "POST",
-    data: { movie_id: movieId },
-    success: function (response) {
-      alert(response.success);
-    },
-    error: function (xhr) {
-      alert(xhr.responseJSON?.error || "An error occurred.");
-    },
-  });
-});
-
-$(document).on("submit", "#submit-review", function (e) {
-  e.preventDefault();
-
-  const formData = $(this).serialize();
-
-  $.ajax({
-    url: "/auth/process/on_review.php",
-    method: "POST",
-    data: formData,
-    success: function (response) {
-      alert(response.success);
-    },
-    error: function (xhr) {
-      alert(xhr.responseJSON?.error || "An error occurred.");
-    },
-  });
-});
-
-$(document).on("click", "#mark-watched", function () {
-  const movieId = $(this).data("movie-id");
-
-  $.ajax({
-    url: "/auth/process/on_mark_watched.php",
-    method: "POST",
-    data: { movie_id: movieId },
-    success: function (response) {
-      alert(response.success);
-    },
-    error: function (xhr) {
-      alert(xhr.responseJSON?.error || "An error occurred.");
-    },
-  });
-});
