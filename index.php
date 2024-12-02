@@ -36,7 +36,7 @@ $latestMoviesResult = $conn->query($latestMoviesQuery);
                     </div>
                 </div>
             </div>
-            <div class="row g-4 d-flex flex-nowrap">
+            <div class="row g-4 ">
                 <?php while ($movie = $topRatedResult->fetch_assoc()): ?>
                     <div class="col-12 col-sm-6 col-md-4 col-lg-2 ">
                         <div class="movie-grid">

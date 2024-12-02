@@ -209,31 +209,35 @@ function loadUserProfile() {
     method: "GET",
     dataType: "json",
     success: function (data) {
-      if (data.error) return alert(data.error);
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
 
       const user = data.userinfo;
       const profileHtml = `
-                <div class="profile-picture mr-4">
-                    <img src="${
-                      user.pfp_url
-                        ? "/" + user.pfp_url
-                        : "/assets/images/profile_picture/default.png"
-                    }" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 120px; height: 120px;">
-                </div>
-                <div class="profile-details">
-                    <h2>${user.username}</h2>
-                    <p><strong>Country:</strong> ${
-                      user.country || "Not available"
-                    }</p>
-                    <p><strong>Address:</strong> ${
-                      user.address || "Not available"
-                    }</p>
-                    <p><strong>Bio:</strong> ${user.bio || "Not available"}</p>
-                    <p><strong>Joined on:</strong> ${
-                      user.joined_on || "Not available"
-                    }</p>
-                </div>`;
+        <div class="profile-picture mr-4">
+            <img src="${
+              user.pfp_url
+                ? "/" + user.pfp_url
+                : "/assets/images/profile_picture/default.png"
+            }" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 120px; height: 120px;">
+        </div>
+        <div class="profile-details">
+            <h2>${user.username}</h2>
+            <p><strong>Country:</strong> ${
+              user.country || "Not available"
+            }</p>
+            <p><strong>Address:</strong> ${
+              user.address || "Not available"
+            }</p>
+            <p><strong>Bio:</strong> ${user.bio || "Not available"}</p>
+            <p><strong>Joined on:</strong> ${
+              user.joined_on || "Not available"
+            }</p>
+        </div>`;
       $("#profile-section").html(profileHtml);
+
       populateMovies(data.watched_movies, "#watched-movies", "watched");
       populateMovies(data.reviewed_movies, "#reviewed-movies", "reviewed");
       populateMovies(data.watchlist_movies, "#watchlist-movies", "watchlist");
@@ -249,30 +253,40 @@ function populateMovies(movies, container, type) {
     $(container).html("<p class='text-center'>No movies found.</p>");
     return;
   }
+
   const html = movies
     .map(
       (movie) => `
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
-            <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                <div class="poster-wrapper">
-                    <img src="/${movie.poster_url}" alt="${
-        movie.title
-      }" class="img-fluid">
-                </div>
-                <h4 class="mt-2 text-center">${movie.title}</h4>
-                <p class="text-center">Release Date: ${movie.release_date}</p>
-                <p class="text-center">IMDb Rating: ${movie.imdb_rating}</p>
-                ${
-                  type === "reviewed"
-                    ? `<p class="text-center">"${movie.review_text}"</p>`
-                    : ""
-                }
-            </a>
-        </div>`
+        <div class="movie_tile col-12 col-sm-6 col-md-4 col-lg-2">
+          <div class="movie-grid">
+            <div class="movie-image">
+              <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
+                <img src="/${movie.poster_url}" class="img-fluid" alt="${movie.title}">
+              </a>
+              <span class="movie-rating-label">IMDb: ${movie.imdb_rating}</span>
+            </div>
+            <div class="movie-content text-center">
+              <h3 class="movie-title">
+                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">${movie.title}</a>
+              </h3>
+              <p class="text-center">Release Date: ${movie.release_date}</p>
+              ${
+                type === "reviewed"
+                  ? `<p class="text-center">"${movie.review_text}"</p>`
+                  : ""
+              }
+              <div class="text-center mt-2">
+                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="btn btn-primary">View Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
     )
     .join("");
   $(container).html(html);
 }
+
 
 function loadLatestMovies() {
   $.ajax({
@@ -319,8 +333,8 @@ function loadTopRatedMovies() {
       const html = movies
       .map(
         (movie) => `
-          <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-            <div class="movie-grid">
+          <div class="movie_tile col-12 col-sm-6 col-md-4 col-lg-2">
+            <div class="movie-grid my-4">
               <div class="movie-image">
                 <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
                   <img src="/${movie.poster_url}" class="img-fluid" alt="${movie.title}">
