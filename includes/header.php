@@ -33,9 +33,18 @@ if (session_status() === PHP_SESSION_NONE) {
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" method="GET" action="/movie/movie_search.php">
-                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search Movies" aria-label="Search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i> Search</button>
+                <input
+                    class="form-control mr-sm-2"
+                    type="search"
+                    name="search"
+                    placeholder="Search Movies"
+                    aria-label="Search"
+                    value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                    <i class="fa fa-search"></i> Search
+                </button>
             </form>
+
             <ul class="navbar-nav ml-auto">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'profile.php' ? 'active' : ''; ?>">

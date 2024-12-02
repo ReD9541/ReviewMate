@@ -60,7 +60,8 @@ $(document).on("submit", "#submit-review", function (e) {
     },
     error: function (xhr) {
       const errorMessage =
-        xhr.responseJSON?.error || "An error occurred while submitting the review.";
+        xhr.responseJSON?.error ||
+        "An error occurred while submitting the review.";
       alert(errorMessage);
     },
     complete: function () {
@@ -86,7 +87,8 @@ $(document).on("click", "#add-to-watchlist", function () {
     },
     error: function (xhr) {
       const errorMessage =
-        xhr.responseJSON?.error || "An error occurred while adding to watchlist.";
+        xhr.responseJSON?.error ||
+        "An error occurred while adding to watchlist.";
       alert(errorMessage);
     },
   });
@@ -109,12 +111,12 @@ $(document).on("click", "#mark-watched", function () {
     },
     error: function (xhr) {
       const errorMessage =
-        xhr.responseJSON?.error || "An error occurred while marking as watched.";
+        xhr.responseJSON?.error ||
+        "An error occurred while marking as watched.";
       alert(errorMessage);
     },
   });
 });
-
 
 $(document).ready(function () {
   $(document).on("submit", "#login-form", function (e) {
@@ -189,16 +191,24 @@ function performSearch(searchTerm) {
         let html = "";
         data.movies.forEach((movie) => {
           html += `
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 movie-card mb-4">
-                            <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">
-                                <div class="poster-wrapper">
-                                    <img src="/${movie.poster_url}" alt="${movie.title}" class="img-fluid">
-                                </div>
-                                <h4 class="mt-2 text-center">${movie.title}</h4>
-                                <p class="text-center">Release Date: ${movie.release_date}</p>
-                                <p class="text-center">IMDb Rating: ${movie.imdb_rating}</p>
-                            </a>
-                        </div>`;
+                        <div class="movie_tile col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="movie-grid my-4">
+              <div class="movie-image">
+                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
+                  <img src="/${movie.poster_url}" class="img-fluid" alt="${movie.title}">
+                </a>
+                <span class="movie-rating-label">IMDB: ${movie.imdb_rating}</span>
+              </div>
+              <div class="movie-content text-center">
+                <h3 class="movie-title">
+                  <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">${movie.title}</a>
+                </h3>
+                <div class="text-center mt-2">
+                  <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="btn btn-primary">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div> `;
         });
         $("#search-results").html(html);
       } else {
@@ -237,12 +247,8 @@ function loadUserProfile() {
         </div>
         <div class="profile-details">
             <h2>${user.username}</h2>
-            <p><strong>Country:</strong> ${
-              user.country || "Not available"
-            }</p>
-            <p><strong>Address:</strong> ${
-              user.address || "Not available"
-            }</p>
+            <p><strong>Country:</strong> ${user.country || "Not available"}</p>
+            <p><strong>Address:</strong> ${user.address || "Not available"}</p>
             <p><strong>Bio:</strong> ${user.bio || "Not available"}</p>
             <p><strong>Joined on:</strong> ${
               user.joined_on || "Not available"
@@ -272,14 +278,20 @@ function populateMovies(movies, container, type) {
         <div class="movie_tile col-4">
           <div class="movie-grid">
             <div class="movie-image">
-              <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="image">
-                <img src="/${movie.poster_url}" class="img-fluid" alt="${movie.title}">
+              <a href="/movie/movie_details.php?movie_id=${
+                movie.movie_id
+              }" class="image">
+                <img src="/${movie.poster_url}" class="img-fluid" alt="${
+        movie.title
+      }">
               </a>
               <span class="movie-rating-label">IMDb: ${movie.imdb_rating}</span>
             </div>
             <div class="movie-content text-center">
               <h3 class="movie-title">
-                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">${movie.title}</a>
+                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}">${
+        movie.title
+      }</a>
               </h3>
               <p class="text-center">Release Date: ${movie.release_date}</p>
               ${
@@ -288,7 +300,9 @@ function populateMovies(movies, container, type) {
                   : ""
               }
               <div class="text-center mt-2">
-                <a href="/movie/movie_details.php?movie_id=${movie.movie_id}" class="btn btn-primary">View Details</a>
+                <a href="/movie/movie_details.php?movie_id=${
+                  movie.movie_id
+                }" class="btn btn-primary">View Details</a>
               </div>
             </div>
           </div>
@@ -298,7 +312,6 @@ function populateMovies(movies, container, type) {
     .join("");
   $(container).html(html);
 }
-
 
 function loadLatestMovies() {
   $.ajax({
@@ -329,12 +342,12 @@ function loadLatestMovies() {
       $("#latest-movies-section").html(html);
     },
     error: function () {
-      alert("An error occurred while fetching the latest movies. Please try again.");
+      alert(
+        "An error occurred while fetching the latest movies. Please try again."
+      );
     },
   });
 }
-
-
 
 function loadTopRatedMovies() {
   $.ajax({
@@ -343,8 +356,8 @@ function loadTopRatedMovies() {
     dataType: "json",
     success: function (movies) {
       const html = movies
-      .map(
-        (movie) => `
+        .map(
+          (movie) => `
           <div class="movie_tile col-12 col-sm-6 col-md-4 col-lg-2">
             <div class="movie-grid my-4">
               <div class="movie-image">
@@ -364,7 +377,7 @@ function loadTopRatedMovies() {
             </div>
           </div>
         `
-      )
+        )
         .join("");
       $("#top-rated-movies-section").html(html);
     },
